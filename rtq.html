@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Oswald');
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            html {
+                background: #d45a5a;
+                font-family: 'Oswald', sans-serif;
+                position: relative;
+                height: 100%;
+            }
+            span {
+                display: block;
+                margin: auto;
+                width: 50%;
+                text-align: center;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 5vh;
+                font-weight: bold;
+            }
+            button {
+                display: block;
+                margin: auto;
+                text-align: center;
+                position: absolute;
+                top: 70%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: transparent;
+                border: 0;
+                font-size: 3vh;
+                padding: 1.3vh;
+                transition: background 0.5s;
+                font-family: 'Oswald', sans-serif;
+            }
+            button:hover {
+                background: rgba(152, 152, 152, 0.59);
+            }
+        </style>
+    </head>
+    <body>
+        <span id="question"></span>
+        <button id="start">New Question</button>
+        <script>
+            var questions = [
+                "What are the impacts to Singapore if this problem is not solved?",
+                "What are some other TG you can extend your project to?",
+                "What are some limitations of your project?",
+                "What other potential challenges can your TG face?",
+                "How does your project cover the limitation mentioned in the current measure?",
+                "How is this topic crucial, why did we choose it out of all other problems?",
+                "You mentioned a few stakeholders that are involved in your solution, which of them is the most important in ensuring the success of your project?",
+                "How is the case study chosen?",
+                "How is this the best TG for your project?",
+                "Which is the most effective current measure to solve the problem now?",
+                "Your presented 4 ideas. Which is the most effective?",
+                "What can be done to ensure the sustainability of the project?",
+                "What else can be done to further outreach your solutions?",
+                "What are some improvements that you can make to your project?",
+                "If you were to include another feature to your solution, what would that be?",
+                "You mentioned a few stakeholders that are involved in your solution, which of them is the most important in ensuring the success of your project?",
+                "What are the unintended benefits of your project?",
+                "Why did you choose to analyse this case study?",
+                "What were the considerations you took when formulating your ideas?",
+                "What would you change about your project?",
+                "In the process of collecting data, which source was the best and why?",
+                "How are your proposed solutions better than the current measures?",
+                "What were the most difficult decisions your group had to make in the course of formatting your project solutions?",
+                "To what extent do you think your project will be well received by the target group?",
+                "How would you modify your project to strengthen its impact on your target group in the long run?",
+                "How would you overcome the challenges faced in your project?",
+                "How do you plan to sustain your project such that you continue to meet the needs of the LVCs?",
+                "How would you convince the LVCs of the necessities of your solutions?",
+                "On a scale of 1 to 10, how would you rate your project’s feasibility?",
+                "What do you think is the most important factor in determining the success of the project?",
+                "How would you ensure that your proposed partners will work with you in the project?",
+                "What are some of the most important factors your group has considered to ensure the feasibility of the project?",
+                "Besides surveys, explain how other data collection methods could be used for your solutions?",
+                "What problems do you foresee in the implementation of the scanner?",
+                "Given the chance to improve on your project, what would you change?",
+                "How do you intend to assess the effectiveness of your solutions?",
+                "How would you evaluate the success of your project?",
+                "What are some of the challenges we faced in gathering primary research for our project and how did we resolve it?",
+                "Most innovative solution?",
+                "Rank the limitations of a solution based on the difficulty of overcoming them."
+            ]
+            var x=false;
+            document.getElementById("start").onclick=function () {
+                if(!x) {
+                    document.getElementById("question").innerHTML=questions[Math.floor((Math.random()*questions.length))];
+                    //document.getElementById("start").innerHTML="stop";
+            
+                }
+            }
+        </script>
+    </body>
+</html>
