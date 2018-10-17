@@ -101,8 +101,15 @@
                 if(!x) {
                         currentQ = Math.floor((Math.random()*questions.length));
                         document.getElementById("question").innerHTML = questions[currentQ];
+
+                        //TTS
+                        if (speechSynthesis.speaking) {
+                            window.speechSynthesis.cancel();
+                        }
                         var msg = new SpeechSynthesisUtterance(questions[currentQ]);
-                        window.speechSynthesis.speak(msg);
+                        speechSynthesis.speak(msg);
+
+                        //Taking out answered questions.
                         answered.push(questions.splice(currentQ, 1)[0]);
                         //document.getElementById("start").innerHTML="stop";
                         if (questions === undefined || questions.length == 0){
