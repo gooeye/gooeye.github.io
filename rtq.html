@@ -93,14 +93,23 @@
                 "Most innovative solution?",
                 "Rank the limitations of a solution based on the difficulty of overcoming them."
             ]
+            var answered = [];
+            var currentQ;
             var x=false;
             document.getElementById("start").onclick=function () {
                 if(!x) {
-                    document.getElementById("question").innerHTML=questions[Math.floor((Math.random()*questions.length))];
-                    //document.getElementById("start").innerHTML="stop";
-            
+                        currentQ = Math.floor((Math.random()*questions.length));
+                        document.getElementById("question").innerHTML = questions[currentQ];
+                        answered.push(questions.splice(currentQ, 1)[0]);
+                        //document.getElementById("start").innerHTML="stop";
+                        if (questions === undefined || questions.length == 0){
+                            questions = answered;
+                            answered = [];
+                        }
                 }
+
             }
+
         </script>
     </body>
 </html>
