@@ -95,11 +95,14 @@
             ]
             var answered = [];
             var currentQ;
+            var msg;
             var x=false;
             document.getElementById("start").onclick=function () {
                 if(!x) {
                         currentQ = Math.floor((Math.random()*questions.length));
                         document.getElementById("question").innerHTML = questions[currentQ];
+                        var msg = new SpeechSynthesisUtterance(questions[currentQ]);
+                        window.speechSynthesis.speak(msg);
                         answered.push(questions.splice(currentQ, 1)[0]);
                         //document.getElementById("start").innerHTML="stop";
                         if (questions === undefined || questions.length == 0){
