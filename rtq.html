@@ -95,7 +95,9 @@
             ]
             var answered = [];
             var currentQ;
-            var msg;
+
+            var sayTimeout = null;
+
             var x=false;
             document.getElementById("start").onclick=function () {
                 if(!x) {
@@ -103,11 +105,24 @@
                         document.getElementById("question").innerHTML = questions[currentQ];
 
                         //TTS
-                        if (speechSynthesis.speaking) {
-                            window.speechSynthesis.cancel();
+                        say(questions[currentQ]);
+                        function say(text) {
+                            if (speechSynthesis.speaking) {
+                                speechSynthesis.cancel();
+
+                                // make sure timeout only happens once
+                                if (sayTimeout !== null)
+                                    clearTimeout(sayTimeout);
+
+                                //timeout for 250ms
+                                sayTimeout = setTimeout(function () { say(text) }, 250);
+                            }
+                            else {
+                                var msg = new SpeechSynthesisUtterance(text);
+                                speechSynthesis.speak(msg);
+                            }
                         }
-                        var msg = new SpeechSynthesisUtterance(questions[currentQ]);
-                        speechSynthesis.speak(msg);
+
 
                         //Taking out answered questions.
                         answered.push(questions.splice(currentQ, 1)[0]);
