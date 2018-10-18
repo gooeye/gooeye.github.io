@@ -17,24 +17,18 @@
             }
             span {
                 display: block;
-                margin: auto;
+                margin: 0 auto;
                 width: 50%;
                 text-align: center;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
                 font-size: 5vh;
                 font-weight: bold;
+                align-self: flex-end;
+                
             }
             button {
                 display: block;
-                margin: auto;
+                margin: 10vh auto;
                 text-align: center;
-                position: absolute;
-                top: 70%;
-                left: 50%;
-                transform: translate(-50%, -50%);
                 background: transparent;
                 border: 0;
                 font-size: 3vh;
@@ -45,11 +39,30 @@
             button:hover {
                 background: rgba(152, 152, 152, 0.59);
             }
+            #container {
+                display: flex;
+                flex-direction: column;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                /*position: absolute;
+                top: 50%;
+                transform: translateY(-50%);*/
+                height: 100vh;
+                justify-content: center;
+            }
+            #textAlign {
+                margin: 0;
+                height: 30%;
+                display: flex;
+            }
         </style>
     </head>
     <body>
-        <span id="question"></span>
-        <button id="start">New Question</button>
+        <div id="container">
+            <div id="textAlign"><span id="question"></span></div>
+            <button id="start">New Question</button>
+        </div>
         <script>
             var questions = [
                 "What are the impacts to Singapore if this problem is not solved?",
