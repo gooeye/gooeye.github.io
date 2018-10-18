@@ -52,7 +52,6 @@ document.addEventListener('contextmenu', function(e) {
 }, false);
 document.addEventListener("click", function() {
     if(m==2) {
-        break;
     } else if(m==1) {
         score++;
         var c=Math.floor((Math.random()*colours.length));
