@@ -96,30 +96,37 @@
             var answered = [];
             var currentQ;
 
-            var sayTimeout = null;
-
             var x=false;
             document.getElementById("start").onclick=function () {
+
+                if ('speechSynthesis' in window) {
+                    var voices = window.speechSynthesis.getVoices();
+                    var sayTimeout = null;
+                }
+
                 if(!x) {
                         currentQ = Math.floor((Math.random()*questions.length));
                         document.getElementById("question").innerHTML = questions[currentQ];
 
                         //TTS
-                        say(questions[currentQ]);
-                        function say(text) {
-                            if (speechSynthesis.speaking) {
-                                speechSynthesis.cancel();
+                        if ('speechSynthesis' in window) {
+                            say(questions[currentQ]);
+                            function say(text) {
+                                if (speechSynthesis.speaking) {
+                                    speechSynthesis.cancel();
 
-                                // make sure timeout only happens once
-                                if (sayTimeout !== null)
-                                    clearTimeout(sayTimeout);
+                                    // make sure timeout only happens once
+                                    if (sayTimeout !== null)
+                                        clearTimeout(sayTimeout);
 
-                                //timeout for 250ms
-                                sayTimeout = setTimeout(function () { say(text) }, 250);
-                            }
-                            else {
-                                var msg = new SpeechSynthesisUtterance(text);
-                                speechSynthesis.speak(msg);
+                                    //timeout for 250ms
+                                    sayTimeout = setTimeout(function () { say(text) }, 250);
+                                }
+                                else {
+                                    var msg = new SpeechSynthesisUtterance(text);
+                                    msg.voice = voices[3];
+                                    speechSynthesis.speak(msg);
+                                }
                             }
                         }
 
