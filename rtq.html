@@ -46,8 +46,10 @@
                 background: rgba(152, 152, 152, 0.59);
             }
         </style>
+
     </head>
     <body>
+        <audio id="bell" src="http://soundbible.com/grab.php?id=2218&type=wav" autoplay="0"></audio>
         <span id="question"></span>
         <button id="start">New Question</button>
         <script>
@@ -104,9 +106,27 @@
                     var sayTimeout = null;
                 }
 
+                var bellTimeout = null;
+
                 if(!x) {
                         currentQ = Math.floor((Math.random()*questions.length));
                         document.getElementById("question").innerHTML = questions[currentQ];
+
+                        //Bell Sound
+                        playBell();
+                        function playBell() {
+                            var sound = document.getElementById("bell");
+
+                            if (bellTimeout !== null) {
+                                clearTimeout(bellTimeout);
+                                bellTimeout = setTimeout(function() { playBell(); }, 3000);
+                            } else {
+                                sound.pause();
+                                sound.currentTime = 0;
+                                sound.play();
+
+                            }
+                        }
 
                         //TTS
                         if ('speechSynthesis' in window) {
@@ -124,7 +144,7 @@
                                 }
                                 else {
                                     var msg = new SpeechSynthesisUtterance(text);
-                                    msg.voice = voices[3];
+                                    msg.voice = voices[1];
                                     speechSynthesis.speak(msg);
                                 }
                             }
