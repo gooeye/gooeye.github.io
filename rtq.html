@@ -113,20 +113,22 @@
                         document.getElementById("question").innerHTML = questions[currentQ];
 
                         //Bell Sound
-                        playBell();
+
                         function playBell() {
                             var sound = document.getElementById("bell");
 
                             if (bellTimeout !== null) {
-                                clearTimeout(bellTimeout);
-                                bellTimeout = setTimeout(function() { playBell(); }, 3000);
+                              clearTimeout(bellTimeout);
+                            }
+                            if (bellTimeout === null) {
+                                bellTimeout = setTimeout(function() { playBell(); }, 270000);
                             } else {
                                 sound.pause();
                                 sound.currentTime = 0;
                                 sound.play();
-
                             }
                         }
+                        playBell();
 
                         //TTS
                         if ('speechSynthesis' in window) {
