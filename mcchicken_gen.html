@@ -3,8 +3,9 @@
     <head>
         <script>
         var y = 1;
-        var chickcount = 0;
         function bokenasu() {
+            var nanba=document.getElementById("nanba").value;
+            var count=0;
             document.getElementById("bokenasucon").innerHTML="";
             document.getElementById("bokenasucon").style.position="fixed";
             document.getElementById("bokenasucon").style.left="0";
@@ -20,7 +21,11 @@
                         var rc = Math.floor((Math.random() * 60) + 1);
                         var rd = Math.floor((Math.random() * 360) + 1);
                         document.getElementById("bokenasucon").innerHTML += "<img style='position:fixed;top:"+ra+"vh;left:"+rb+"vw;width:"+rc+"vh;height:"+rc+"vh;-ms-transform:rotate("+rd+"deg);-webkit-transform:rotate("+rd+"deg);transform:rotate("+rd+"deg);z-index:9002;' src='bokenasu.png'></img>";
-                        chickcount += 1;
+                        count += 1;
+                        if(count == nanba) {
+                            clearInterval(doot);
+                            alert(nanba + " McChickens Generated");
+                        }
                     }
                     , 50)
             }
@@ -30,7 +35,8 @@
     </head>
     <body>
         <div id="bokenasucon">
-            <button onclick="bokenasu()"></button>
+            <input id="nanba" type="text"/>
+            <button onclick="bokenasu()">generate McChickens</button>
         </div>
     </body>
 </html>
