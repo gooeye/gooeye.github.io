@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+        var y = 1;
+        var chickcount = 0;
+        function bokenasu() {
+            document.getElementById("bokenasucon").innerHTML="";
+            document.getElementById("bokenasucon").style.position="fixed";
+            document.getElementById("bokenasucon").style.left="0";
+            document.getElementById("bokenasucon").style.top="0";
+            document.getElementById("bokenasucon").style.width="0";
+            document.getElementById("bokenasucon").style.height="0";
+            document.getElementById("bokenasucon").style.zIndex="9004";
+            if(y == 1) {
+                var doot = setInterval(
+                    function() {
+                        var ra = Math.floor((Math.random() * 110) - 10);
+                        var rb = Math.floor((Math.random() * 110) - 10);
+                        var rc = Math.floor((Math.random() * 60) + 1);
+                        var rd = Math.floor((Math.random() * 360) + 1);
+                        document.getElementById("bokenasucon").innerHTML += "<img style='position:fixed;top:"+ra+"vh;left:"+rb+"vw;width:"+rc+"vh;height:"+rc+"vh;-ms-transform:rotate("+rd+"deg);-webkit-transform:rotate("+rd+"deg);transform:rotate("+rd+"deg);z-index:9002;' src='bokenasu.png'></img>";
+                        chickcount += 1;
+                    }
+                    , 50)
+            }
+            y = 0;
+        }
+        </script>
+    </head>
+    <body>
+        <div id="bokenasucon">
+            <button onclick="bokenasu()"></button>
+        </div>
+    </body>
+</html>
