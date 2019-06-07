@@ -2,6 +2,7 @@
 <html>
     <head>
         <script>
+            var v=1;
             function fwoop() {
                 if(document.getElementById("c").checked==true) {
                     var x=document.getElementById("y").value*document.getElementById("z1").value-document.getElementById("y1").value*document.getElementById("z").value;
@@ -12,18 +13,28 @@
                     var blop=document.getElementById("x").value*document.getElementById("x1").value+document.getElementById("y").value*document.getElementById("y1").value+document.getElementById("z").value*document.getElementById("z1").value;
                 }
                 document.body.innerHTML=blop;
-                setInterval(function(){document.body.innerHTML+="       "+blop;},100)
+                setInterval(function(){document.body.innerHTML+="       "+blop;},100);
+            }
+            function flipdot() {
+                if(v==1){
+                    v=0;
+                    document.getElementById("prod").innerHTML="&times;"
+                } else if(v==0){
+                    v=1;
+                    document.getElementById("prod").innerHTML="&middot;"
+                }
             }
         </script>
     </head>
     <body>
-        <input type="text" id="x">
+        (<input type="text" id="x">
         <input type="text" id="y">
-        <input type="text" id="z">
-        <input type="text" id="x1">
+        <input type="text" id="z">)
+        <span id="prod">&middot;</span>
+        (<input type="text" id="x1">
         <input type="text" id="y1">
-        <input type="text" id="z1">
-        <input type="checkbox" id="c">
+        <input type="text" id="z1">)
+        <input type="checkbox" id="c" onclick="flipdot()">
         <button onclick="fwoop()">Multiply!!!!??!</button>
     </body>
 </html>
