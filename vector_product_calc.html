@@ -12,7 +12,7 @@
                     var blop=document.getElementById("x").value*document.getElementById("x1").value+document.getElementById("y").value*document.getElementById("y1").value+document.getElementById("z").value*document.getElementById("z1").value;
                 }
                 document.body.innerHTML=blop;
-                document.body.innerHTML+="</br>"+blop;
+                setInterval(function(){document.body.innerHTML+="       "+blop;},100)
             }
         </script>
     </head>
