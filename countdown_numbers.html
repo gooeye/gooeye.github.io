@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <script>
+        function draw(bnum) {
+            var cards=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 50, 75, 100];
+            var picked=[];
+            var max=20,
+                bmax=4;
+            for(var i=0; i<(6-bnum); i++) {
+                var x=Math.floor(Math.random()*max);
+                picked.push(cards.splice(x, 1)[0]);
+                max-=1;
+            }
+            for(var j=0; j<(bnum); j++) {
+                var y=Math.floor(Math.random()*(bmax)+max);
+                picked.push(cards.splice(y, 1)[0]);
+                bmax-=1;
+            }
+            for(var k=5; k>=0; k--) {
+                document.getElementById("cards").childNodes[2*k+1].innerHTML=picked[k];
+            }
+        }
+        function generate() {
+            var goal=Math.floor(Math.random()*(900)+100);
+            document.getElementById("goal").innerHTML=goal;
+        }
+    </script>
+    <body>
+        <div>
+            <span id="goal"></span>
+            <button onclick="generate()">generate target</button>
+        </div>
+        <div id="cards">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div>
+            <button onclick="draw(0)">0</button>
+            <button onclick="draw(1)">1</button>
+            <button onclick="draw(2)">2</button>
+            <button onclick="draw(3)">3</button>
+            <button onclick="draw(4)">4</button>
+        </div>
+    </body>
+</html>
