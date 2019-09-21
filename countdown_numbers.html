@@ -1,34 +1,185 @@
 <!DOCTYPE html>
 <html>
-    <script>
-        function draw(bnum) {
-            var cards=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 50, 75, 100];
-            var picked=[];
-            var max=20,
-                bmax=4;
-            for(var i=0; i<(6-bnum); i++) {
-                var x=Math.floor(Math.random()*max);
-                picked.push(cards.splice(x, 1)[0]);
-                max-=1;
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="anime.js"></script>
+        <script>
+            function draw(bnum) {
+                var cards=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 50, 75, 100];
+                var picked=[];
+                var max=20,
+                    bmax=4;
+                for(var i=0; i<(6-bnum); i++) {
+                    var x=Math.floor(Math.random()*max);
+                    picked.push(cards.splice(x, 1)[0]);
+                    max-=1;
+                }
+                for(var j=0; j<(bnum); j++) {
+                    var y=Math.floor(Math.random()*(bmax)+max);
+                    picked.push(cards.splice(y, 1)[0]);
+                    bmax-=1;
+                }
+                for(var k=5; k>=0; k--) {
+                    document.getElementById("cards").childNodes[2*k+1].innerHTML=picked[k];
+                }
+                toggleDraw(1);
+                displayDraw(1);
             }
-            for(var j=0; j<(bnum); j++) {
-                var y=Math.floor(Math.random()*(bmax)+max);
-                picked.push(cards.splice(y, 1)[0]);
-                bmax-=1;
+            function generate() {
+                var goal=Math.floor(Math.random()*(900)+100);
+                document.getElementById("goal").innerHTML=goal;
             }
-            for(var k=5; k>=0; k--) {
-                document.getElementById("cards").childNodes[2*k+1].innerHTML=picked[k];
+            function toggleDraw(state) {
+                if(state) {
+                    anime({
+                        targets: '#bnumSelector',
+                        translateY: '+=100%',
+                        opacity: 0,
+                        duration: 800,
+                        easing: 'easeInBack'
+                    });
+                } else if(!state) {
+                    anime({
+                        targets: '#bnumSelector',
+                        translateY: '-=100%',
+                        opacity: 1,
+                        duration: 800,
+                        easing: 'easeOutBack'
+                    });
+                }
             }
-        }
-        function generate() {
-            var goal=Math.floor(Math.random()*(900)+100);
-            document.getElementById("goal").innerHTML=goal;
-        }
-    </script>
+            function displayDraw(state) {
+                if(state) {
+                    anime({
+                        targets: '#cards span',
+                        opacity: 1,
+                        duration: 300,
+                        delay: anime.stagger(500, {start: 500, direction: 'reverse'}),
+                        easing: 'linear'
+                    });
+                } else if(!state) {
+                    anime({
+                        targets: '#cards span',
+                        opacity: 0,
+                        duration: 10,
+                        delay: 1000,
+                        easing: 'linear'
+                    });
+                }
+            }
+        </script>
+        <style>
+            html, body {
+                padding: 0;
+                margin: 0;
+                height: 100%;
+                overflow: hidden;
+            }
+            #bnumSelector {
+                width: 100%;
+                height: 100%;
+                background-color: white;
+                left: 0;
+                top: 0;
+                position: absolute;
+                text-align: center;
+            }
+            #bnumSelector button {
+                width: 15%;
+                background: transparent;
+                border: 1px solid black;
+                font-size: 2em;
+                margin: 10px;
+                padding: 1.5%;
+                transition: 0.5s, border-radius 0.4s;
+            }
+            #bnumSelector button:hover {
+                cursor: pointer;
+                background: black;
+                color: white;
+                border-radius: 50px;
+                transition: 0.45s, border-radius 0.6s;
+            }
+            #bnumSelector button:focus {
+                outline: 0;
+                background: black;
+                color: white;
+                border-radius: 50px;
+            }
+            #bnumSelector h1 {
+                margin-top: 15%;
+            }
+            #cards {
+                text-align: center;
+                padding: 0;
+            }
+            #cards span {
+                display: inline-block;
+                opacity: 0;
+                background: white;
+                width: 10vw;
+                height: 10vw;
+                text-align: center;
+                line-height: 10vw;
+                font-size: 5vw;
+                margin: 1vw;
+                border: 0.3vw solid black;
+            }
+            #goalBox {
+                width: 75%;
+                height: 25%;
+                margin: 15vh auto 0 auto;
+                border: 0.3vw solid black;
+                text-align: center;
+                padding: 0;
+            }
+            #goal {
+                display: block;
+                height: 100%;
+                margin: 0;
+                line-height: 25vh;
+                font-size: 6.5vw;
+            }
+            #reset {
+                width: 100%;
+                height: 20%;
+                text-align: center;
+                padding: 0;
+            }
+            #reset button {
+                width: 20%;
+                height: 50%;
+                margin: 10px;
+                border: 0.2vh solid black;
+                font-size: 2em;
+                transition: 0.5s, border-radius 0.4s, font-size 0s;
+                font-size: 3vh;
+                background: transparent;
+            }
+            #reset button:hover {
+                cursor: pointer;
+                background: black;
+                color: white;
+                border-radius: 50px;
+                transition: 0.45s, border-radius 0.6s, font-size 0s;
+            }
+            @media only screen and (max-width: 768px) {
+                /* For mobile phones: */
+                #bnumSelector button {
+                    padding: 0.5%;
+                    min-height: 10%;
+                    width: 85%;
+                }
+                #bnumSelector h1 {
+                    margin-top: 20%;
+                }
+            }
+        </style>
+        
+    </head>
     <body>
-        <div>
+        <div id="goalBox">
             <span id="goal"></span>
-            <button onclick="generate()">generate target</button>
         </div>
         <div id="cards">
             <span></span>
@@ -38,12 +189,17 @@
             <span></span>
             <span></span>
         </div>
-        <div>
+        <div id="bnumSelector">
+            <h1>How many large numbers?</h1>
             <button onclick="draw(0)">0</button>
             <button onclick="draw(1)">1</button>
             <button onclick="draw(2)">2</button>
             <button onclick="draw(3)">3</button>
             <button onclick="draw(4)">4</button>
+        </div>
+        <div id="reset">
+            <button id="goalGen" onclick="generate()">generate target</button>
+            <button onclick="displayDraw(0); toggleDraw(0);">reset cards</button>
         </div>
     </body>
 </html>
