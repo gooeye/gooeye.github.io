@@ -20,7 +20,7 @@
                     bmax-=1;
                 }
                 for(var k=5; k>=0; k--) {
-                    document.getElementById("cards").childNodes[2*k+1].innerHTML=picked[k];
+                    document.getElementById("cards").childNodes[2*k+1].innerHTML=picked[5-k];
                 }
                 toggleDraw(1);
                 displayDraw(1);
