@@ -4,6 +4,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="anime.js"></script>
         <script>
+            var timerMusic = new Audio();
+            timerMusic.src = "countdown.mp3";
             function draw(bnum) {
                 var cards=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 50, 75, 100];
                 var picked=[];
@@ -25,20 +27,29 @@
                 toggleDraw(1);
                 displayDraw(1);
             }
-            function generate() {
-                var goal=Math.floor(Math.random()*(900)+100);
-                document.getElementById("goal").innerHTML=goal;
+            function displayRand(vis) {
+                if(vis) {
+                    var goal=Math.floor(Math.random()*(900)+100);
+                    document.getElementById("goal").innerHTML=goal;
+                    timerMusic.play();
+                } else if (!vis) {
+                    document.getElementById("goal").innerHTML="";
+                    timerMusic.pause();
+                    timerMusic.currentTime=0;
+                }
             }
             function toggleDraw(state) {
                 if(state) {
-                    anime({
+                    var hideDraw=anime({
                         targets: '#bnumSelector',
                         translateY: '+=100%',
                         opacity: 0,
                         duration: 800,
                         easing: 'easeInBack'
                     });
+                    hideDraw.finished.then(function(){document.getElementById("bnumSelector").style.display="none"});
                 } else if(!state) {
+                    document.getElementById("bnumSelector").style.display="block";
                     anime({
                         targets: '#bnumSelector',
                         translateY: '-=100%',
@@ -50,7 +61,7 @@
             }
             function displayDraw(state) {
                 if(state) {
-                    anime({
+                    var display=anime({
                         targets: '#cards span',
                         opacity: 1,
                         duration: 300,
@@ -176,6 +187,9 @@
                 #bnumSelector h1 {
                     margin-top: 20%;
                 }
+                #reset button {
+                    width: 70%;
+                }
             }
         </style>
         
@@ -201,8 +215,8 @@
             <button onclick="draw(4)">4</button>
         </div>
         <div id="reset">
-            <button id="goalGen" onclick="generate()">generate target</button>
-            <button onclick="displayDraw(0); toggleDraw(0);">reset cards</button>
+            <button id="goalGen" onclick="displayRand(1)">generate target</button>
+            <button onclick="displayDraw(0); toggleDraw(0); displayRand(0)">reset cards</button>
         </div>
     </body>
 </html>
