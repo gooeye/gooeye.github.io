@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            
+            @import url(http://fonts.googleapis.com/css?family=Open+Sans:800);
+            @import url('https://fonts.googleapis.com/css?family=Lora:400,400i,700i');
+            @import url('https://fonts.googleapis.com/css?family=Raleway');
+            @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700');
+            html, body {
+              height: 100%;
+            }
+
+            body {
+              background-color: #ffffff;
+              background-size: .2em 100%;
+              font: 30em/1 Source Sans Pro, sans-serif;
+              
+                font-weight: 700;
+              margin: 0;
+            }
+
+            svg *{
+              position: absolute;
+              width: 100%;
+              height: 100%;
+            }
+            
+
+            .text {
+              fill: none;
+              stroke-width: 18;
+              stroke-linejoin: round;
+              stroke-dasharray: 70 330;
+              stroke-dashoffset: 0;
+              -webkit-animation: stroke 6s infinite linear;
+              animation: stroke 6s infinite linear;
+            }
+            
+            .text:nth-child(5n + 1) {
+              stroke: #00205b;
+              animation-delay: -1.5s;
+            }
+
+            .text:nth-child(5n + 2) {
+              stroke: #ffc72c;
+              animation-delay: -3s;
+            }
+
+            .text:nth-child(5n + 3) {
+              stroke: #00205b;
+              animation-delay: -4.5s;
+            }
+
+            .text:nth-child(5n + 4) {
+              stroke: #ffc72c;
+              animation-delay: -6s;
+            }
+
+            @keyframes stroke {
+              100% {
+                stroke-dashoffset: -400;
+              }
+            }
+            
+            #title {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <svg viewbox="0 0 5000 2000" dominant-baseline="central">
+            <symbol id="title">
+                <text text-anchor="middle" x="50%" y="50%" dy=".65em">
+                    Yeah
+                </text>
+            </symbol>
+            <linearGradient id="gr-simple" x1="0" y1="0" x2="100%" y2="100%">
+                <stop stop-color="#ed1c24" offset="20%"/>
+                <stop stop-color="#22ff02" offset="35%"/>
+                <stop stop-color="#ff6600" offset="50%"/>
+                <stop stop-color="#00c9ff" offset="65%"/>
+                <stop stop-color="#4e008e" offset="80%"/>
+            </linearGradient>
+            <use xlink:href="#title" class="text" width="100%"></use>
+            <use xlink:href="#title" class="text" width="100%"></use>
+            <use xlink:href="#title" class="text" width="100%"></use>
+            <use xlink:href="#title" class="text" width="100%"></use>
+            <use xlink:href="#title" class="text" width="100%"></use>
+        </svg>
+    </body>
+</html>
