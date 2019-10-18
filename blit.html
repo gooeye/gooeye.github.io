@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html, body {
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                margin: 0;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="board">
+        </canvas>
+        <script>
+            var board=document.getElementById("board");
+            board.width=window.innerWidth;
+            board.height=window.innerHeight;
+            board.style.height=window.innerHeight;
+            board.style.width=window.innerWidth;
+            var grid=[];
+            window.onload = function()
+            {
+                if(window.addEventListener) document.addEventListener('DOMMouseScroll', incrementGrid, false);
+                document.onmousewheel = incrementGrid;
+            }
+            function drawLine(xa, ya, xb, yb) {
+                var line=board.getContext("2d");
+                line.moveTo(xa, ya);
+                line.lineTo(xb, yb);
+                line.stroke();
+            }
+            function drawCircle(x, y, r) {
+                var cir=board.getContext("2d");
+                cir.beginPath;
+                cir.arc(x, y, r, 0, 2*Math.PI);
+                cir.stroke();
+            }
+            function drawPoly(x, y, size, n, rotate=1) {  // (x, y) are the coordinates of the center
+                var poly=board.getContext("2d");
+                poly.beginPath();
+                if(rotate) poly.moveTo(x+size*Math.sin(0), y+size*Math.cos(0));
+                else poly.moveTo(x+size*Math.cos(0), y+size*Math.sin(0));
+                if(rotate) {
+                    for(var side=0; side<=n; side++) {
+                        poly.lineTo(x+size*Math.sin(side*2*Math.PI/n), y+size*Math.cos(side*2*Math.PI/n));
+                    }
+                } else {
+                    for(var side=0; side<=n; side++) {
+                        poly.lineTo(x+size*Math.cos(side*2*Math.PI/n), y+size*Math.sin(side*2*Math.PI/n));
+                    }
+                }
+                poly.lineWidth = 3/gridSize;
+                poly.stroke();
+            }
+            function incrementGrid() {
+                var delta = 0;
+                if(!event) event=window.event;
+                if(event.wheelDelta) {
+                    delta=event.wheelDelta/120;
+                } else if(event.detail) {
+                    delta=-event.detail/3;
+                }
+                gridSize+=delta;
+                if (gridSize<0) gridSize=0;
+                var clear=board.getContext("2d");
+                clear.clearRect(0, 0, board.width, board.height);
+                gameStart();
+            }
+            var gridSize=0;
+            function gameStart() {
+                grid=[]; // for increment function to work
+                var width=board.width;
+                var height=board.height;
+                var side=0.2*width;
+                //var gridSide=((Math.sqrt(3)/2)*side/gridSize; // this is wrong for side calculation
+                var gridSide=side/((gridSize-1)*2*Math.cos(Math.PI/6)+1/Math.cos(Math.PI/6));
+                console.log(0.5*gridSide/Math.cos(Math.PI/6));
+                for(var n=0; n<gridSize*2-1; n++) {
+                    if(n<gridSize) {
+                        for(var m=0; m<gridSize+n; m++) {
+                            grid.push([0.5*(width-side)+0.5*gridSide/Math.cos(Math.PI/6)+m*Math.sqrt(3)*gridSide-n*0.5*Math.sqrt(3)*gridSide, 0.5*(height-Math.sqrt(3)*side)+(1.5*n+1)*gridSide]);
+                        }
+                    } else if(n>=gridSize) {
+                        for(var m=0; m<gridSize*3-n-2; m++) {
+                            grid.push([0.5*(width-side)+0.5*gridSide/Math.cos(Math.PI/6)+m*Math.sqrt(3)*gridSide-(gridSize*2-2-n)*0.5*Math.sqrt(3)*gridSide, 0.5*(height-Math.sqrt(3)*side)+(1.5*n+1)*gridSide]);
+                        }
+                    }
+                }
+                drawPoly(0.5*width, 0.5*height, side, 6, 0);
+                for(i=0; i<grid.length; i++) {
+                    drawPoly(grid[i][0], grid[i][1], gridSide, 6);
+                }
+            }
+        </script>
+    </body>
+</html>
