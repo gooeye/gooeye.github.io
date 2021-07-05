@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+				<title>15 Puzzle</title>
+				<style>
+								@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
+								html, body {
+								    padding: 0;
+								    margin: 0;
+								    width: 100%;
+								    height: 100%;
+								    display: flex;
+								    align-items: center;
+								    justify-content: center;
+								}
+								.container {
+								    margin: auto;
+								    paddin: 0;
+								    width: 800px;
+								    height: 800px;
+								    display: flex;
+								    flex-flow: row wrap;
+           justify-content: space-between;
+           align-items: center;
+           -moz-user-select: none;
+           -khtml-user-select: none;
+           -webkit-user-select: none;
+           -ms-user-select: none;
+           user-select: none;
+								}
+								.container div {
+								    display: flex;
+								    width: 22%;
+								    height: 22%;
+								    margin: 0;
+								    background: #d0d0d0;
+								    text-align: center;
+								    align-items: center;
+								    justify-content: center;
+								    font-size: 4rem;
+								    font-family: 'Exo 2', sans-serif;
+								}
+				</style>
+</head>
+<body>
+				<div class="container">
+				    <div id="1" onclick="swap(1, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="2" onclick="swap(2, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="3" onclick="swap(3, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="4" onclick="swap(4, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="5" onclick="swap(5, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="6" onclick="swap(6, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="7" onclick="swap(7, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="8" onclick="swap(8, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="9" onclick="swap(9, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="10" onclick="swap(10, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="11" onclick="swap(11, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="12" onclick="swap(12, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="13" onclick="swap(13, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="14" onclick="swap(14, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="15" onclick="swap(15, puzzle);update(puzzle);check(puzzle)"></div>
+				    <div id="16" onclick="swap(16, puzzle);update(puzzle);check(puzzle)"></div>
+				</div>
+				<script>
+								var puzzle=[16, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", ""];
+								for(var i=1000; i>0; i--) swap(Math.floor(Math.random()*16)+1, puzzle);
+								function swap(x, puzzle) {
+								    if(Math.abs(puzzle[0]-x)===4||(Math.abs(puzzle[0]-x)===1&&(puzzle[0]+x!=9&&puzzle[0]+x!=17&&puzzle[0]+x!=25))) {
+								        puzzle[puzzle[0]]=puzzle[x];
+								        puzzle[x]="";
+								        puzzle[0]=x;
+								    }
+								}
+								function update(puzzle) {
+								     for(var i=1; i<17; i++) {
+								     				document.getElementById(i).innerHTML=puzzle[i];
+								     }
+							}
+							function check(puzzle) {
+							    var x=0;
+							    for(var i=1; i<17; i++) if (puzzle[i]==i) x++;
+							    if(x==15) alert("you win");
+							}
+							update(puzzle)
+				</script>
+</body>
+</html>
