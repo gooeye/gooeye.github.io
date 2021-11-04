@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Potion Cost Calculator</title>
+        <meta charset="UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <style>
+            html {
+            }
+            #listwrap {
+                width: 40vw;
+                height: 90vh;
+                top: 5vh;
+                left: 5vw;
+                position: absolute;
+            }
+            .ingwrap {
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
+                -webkit-box-pack: left;
+                    -ms-flex-pack: left;
+                        justify-content: left;
+                -webkit-column-gap: 3vw;
+                   -moz-column-gap: 3vw;
+                        column-gap: 3vw;
+            }
+            .ingwrap>div {
+                width: 10rem;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-align:center;
+                    -ms-flex-align:center;
+                        align-items:center;
+            }
+            .ingwrap>div>label {
+                margin-left: 0.5vw;
+            }
+            #dispwrap {
+                width: 40vw;
+                height: 90vh;
+                position: fixed;
+                top: 5vh;
+                right: 5vw;
+                text-align: center;
+                display:-webkit-box;
+                display:-ms-flexbox;
+                display:flex;
+                -webkit-box-pack:center;
+                    -ms-flex-pack:center;
+                        justify-content:center;
+                -webkit-box-align:center;
+                    -ms-flex-align:center;
+                        align-items:center;
+            }
+            #cdisp {
+                font-size: 2.5rem;
+            }
+            #reset {
+                display: block;
+            }
+            .quantity {
+                position: relative;
+            }
+            input[type=number]::-webkit-inner-spin-button,
+            input[type=number]::-webkit-outer-spin-button
+            {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            input[type=number]
+            {
+                -moz-appearance: textfield;
+            }
+
+            .quantity input {
+                width: 45px;
+                height: 42px;
+                line-height: 1.65;
+                float: left;
+                display: block;
+                padding: 0;
+                margin: 0;
+                padding-left: 20px;
+                border: 1px solid #eee;
+            }
+
+            .quantity input:focus {
+                outline: 0;
+            }
+
+            .quantity-nav {
+                float: left;
+                position: relative;
+                height: 42px;
+            }
+
+            .quantity-button {
+                position: relative;
+                cursor: pointer;
+                border-left: 1px solid #eee;
+                width: 20px;
+                text-align: center;
+                color: #333;
+                font-size: 13px;
+                font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+                line-height: 1.7;
+                -webkit-transform: translateX(-100%);
+                -ms-transform: translateX(-100%);
+                    transform: translateX(-100%);
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                -o-user-select: none;
+                user-select: none;
+                background-color: white;
+            }
+
+            .quantity-button.quantity-up {
+                position: absolute;
+                height: 50%;
+                top: 0;
+                border-bottom: 1px solid #eee;
+            }
+
+            .quantity-button.quantity-down {
+                position: absolute;
+                bottom: -1px;
+                height: 50%;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="listwrap">
+            <h2>Herbs, Roots, and Flowers</h2>
+            <div class="ingwrap">
+                <div class="quantity"><input type="number" min="0" step="1" id="0" value="0"><label for="0">Bloodthorn</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="1" value="0"><label for="1">Firebell</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="2" value="0"><label for="2">Goldthorn</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="3" value="0"><label for="3">Hairy Banana</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="4" value="0"><label for="4">Ice Fruit</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="5" value="0"><label for="5">Lava Root</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="6" value="0"><label for="6">Tangleweed</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="7" value="0"><label for="7">Terraria</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="8" value="0"><label for="8">Thornstick</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="9" value="0"><label for="9">Thunder Thistle</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="10" value="0"><label for="10">Waterbloom</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="11" value="0"><label for="11">Windbloom</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="12" value="0"><label for="12">Lumpy Beet</label></div>
+            </div>
+            <h2>Mushrooms</h2>
+            <div class="ingwrap">
+                <div class="quantity"><input type="number" min="0" step="1" id="13" value="0"><label for="13">Brown Mushroom</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="14" value="0"><label for="14">Dryad's Saddle</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="15" value="0"><label for="15">Goblin Shroom</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="16" value="0"><label for="16">Green Mushroom</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="17" value="0"><label for="17">Marshroom</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="18" value="0"><label for="18">Red Mushroom</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="19" value="0"><label for="19">Shadow Chanterelle</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="20" value="0"><label for="20">Sulphur Shelf</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="21" value="0"><label for="21">Weirdshroom</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="22" value="0"><label for="22">Witch Mushroom</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="23" value="0"><label for="23">Grave Truffle</label></div>
+            </div>
+            <h2>Minerals</h2>
+            <div class="ingwrap">
+                <div class="quantity"><input type="number" min="0" step="1" id="24" value="0"><label for="24">Cloud Crystal</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="25" value="0"><label for="25">Earth Pyrite</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="26" value="0"><label for="26">Frost Sapphire</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="27" value="0"><label for="27">Fire Citrine</label></div>
+                <div class="quantity"><input type="number" min="0" step="1" id="28" value="0"><label for="28">Blood Ruby</label></div>
+            </div>
+        </div>
+        <div id="dispwrap">
+            <div>
+                <span id="cdisp">You've spent 0 Gold on this potion.</span>
+                <button id="reset">Brew another potion</button>
+            </div>
+        </div>
+        <script>
+            var qp=qpinit=[
+                //Herbs, Roots, and Flowers
+                [0,56],
+                [0,20],
+                [0,50],
+                [0,50],
+                [0,36],
+                [0,46],
+                [0,34],
+                [0,12],
+                [0,32],
+                [0,36],
+                [0,16],
+                [0,24],
+                [0,36],
+                //Mushrooms
+                [0,24],
+                [0,22],
+                [0,20],
+                [0,36],
+                [0,28],
+                [0,38],
+                [0,40],
+                [0,44],
+                [0,34],
+                [0,52],
+                [0,40],
+                //Minerals
+                [0,240],
+                [0,120],
+                [0,160],
+                [0,200],
+                [0,360]
+            ]
+            var price=0;
+            for(var i=0; i<qp.length; i++) {
+                qp[i][0]=document.getElementById(i).value;
+                price+=qp[i][0]*qp[i][1];
+            }
+            document.getElementById("cdisp").innerHTML="You've spent <span style='color:goldenrod;'>"+price+" Gold</span> on this potion.";
+            document.getElementById("listwrap").addEventListener("input", function updateCost(event) {
+                var n = event.target;
+                if(n.value==""||n.value<0||n.value%1!=0) {
+                    n.value=0;
+                    return 0;
+                }
+                var newid=parseInt(n.id);
+                qp[newid][0]=parseInt(n.value);
+                price=0;
+                for(var i=0; i<qp.length; i++) {
+                    price+=qp[i][0]*qp[i][1];
+                }
+                document.getElementById("cdisp").innerHTML="You've spent <span style='color:goldenrod;'>"+price+" Gold</span> on this potion.";
+            })
+            document.getElementById("reset").addEventListener("click", function(event) {
+                for(var i=0; i<qp.length; i++) {
+                    document.getElementById(i).value=0;
+                    qp=qpinit;
+                    price=0;
+                    document.getElementById("cdisp").innerHTML="You've spent <span style='color:goldenrod;'>"+price+" Gold</span> on this potion.";
+                }
+            })
+            var clickVal=0;
+            for (var item of document.querySelectorAll("#listwrap input")) {
+                item.addEventListener("focusout", function(event) {
+                    if(event.target.value=="") event.target.value=clickVal;
+                })
+                item.addEventListener("click", function (event) {
+                    clickVal=event.target.value;
+                    event.target.value="";
+                }, false);
+            }
+            /*
+                Herbs, Roots and Flowers
+                    Bloodthorn          56
+                    Firebell    	    20
+                    Goldthorn   	    50
+                    Hairy Banana	    50
+                    Ice Fruit	        36
+                    Lava Root	        46
+                    Tangleweed  	    34
+                    Terraria	        12
+                    Thornstick	        32
+                    Thunder Thistle	    36
+                    Waterbloom          16
+                    Windbloom	        24
+                    Lumpy Beet          36
+                Mushrooms
+                    Brown Mushroom	    24
+                    Dryad's Saddle	    22
+                    Goblin Shroom	    20
+                    Green Mushroom	    36
+                    Marshroom	        28
+                    Red Mushroom	    38
+                    Shadow Chanterelle	40
+                    Sulphur Shelf	    44
+                    Weirdshroom	        34
+                    Witch Mushroom  	52
+                    Grave Truffle	    40
+                Minerals
+                    Cloud Crystal       240
+                    Earth Pyrite        120
+                    Frost Sapphire      160
+                    Fire Citrine        200
+                    Blood Ruby          360
+            */
+            jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+            jQuery('.quantity').each(function() {
+                var spinner = jQuery(this),
+                    input = spinner.find('input[type="number"]'),
+                    btnUp = spinner.find('.quantity-up'),
+                    btnDown = spinner.find('.quantity-down'),
+                    min = input.attr('min'),
+                    max = input.attr('max');
+
+                btnUp.click(function() {
+                    var oldValue = parseFloat(input.val());
+                    if (oldValue >= max) {
+                    var newVal = oldValue;
+                    } else {
+                    var newVal = oldValue + 1;
+                    }
+                    spinner.find("input").val(newVal);
+                    var n = spinner.find("input").get(0);
+                    var newid=parseInt(n.id);
+                    qp[newid][0]=parseInt(n.value);
+                    price=0;
+                    for(var i=0; i<qp.length; i++) {
+                        price+=qp[i][0]*qp[i][1];
+                    }
+                    document.getElementById("cdisp").innerHTML="You've spent <span style='color:goldenrod;'>"+price+" Gold</span> on this potion.";
+                });
+
+                btnDown.click(function() {
+                    var oldValue = parseFloat(input.val());
+                    if (oldValue <= min) {
+                    var newVal = oldValue;
+                    } else {
+                    var newVal = oldValue - 1;
+                    }
+                    spinner.find("input").val(newVal);
+                    var n = spinner.find("input").get(0);
+                    var newid=parseInt(n.id);
+                    qp[newid][0]=parseInt(n.value);
+                    price=0;
+                    for(var i=0; i<qp.length; i++) {
+                        price+=qp[i][0]*qp[i][1];
+                    }
+                    document.getElementById("cdisp").innerHTML="You've spent <span style='color:goldenrod;'>"+price+" Gold</span> on this potion.";
+                });
+
+            });
+        </script>
+    </body>
+</html>
