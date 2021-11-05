@@ -281,7 +281,7 @@
             document.getElementById("listwrap").addEventListener("input", function updateCost(event) {
                 var n = event.target;
                 if(n.value==""||n.value<0||n.value%1!=0) {
-                    n.value=0;
+                    n.value="";
                     return 0;
                 }
                 var newid=parseInt(n.id);
@@ -303,7 +303,15 @@
             var clickVal=0;
             for (var item of document.querySelectorAll("#listwrap input")) {
                 item.addEventListener("focusout", function(event) {
+                    if(clickVal=="") clickVal=0;
                     if(event.target.value=="") event.target.value=clickVal;
+                    var newid=parseInt(event.target.id);
+                    qp[newid][0]=parseInt(event.target.value);
+                    price=0;
+                    for(var i=0; i<qp.length; i++) {
+                        price+=qp[i][0]*qp[i][1];
+                    }
+                    document.getElementById("cdisp").innerHTML="You've spent <span style='color:goldenrod;'>"+price+" Gold</span> on this potion.";
                 })
                 item.addEventListener("click", function (event) {
                     clickVal=event.target.value;
@@ -355,6 +363,7 @@
 
                 btnUp.click(function() {
                     var oldValue = parseFloat(input.val());
+                    if (isNaN(parseFloat(oldValue))) oldValue=0;
                     if (oldValue >= max) {
                     var newVal = oldValue;
                     } else {
@@ -373,6 +382,7 @@
 
                 btnDown.click(function() {
                     var oldValue = parseFloat(input.val());
+                    if (isNaN(parseFloat(oldValue))) oldValue=0;
                     if (oldValue <= min) {
                     var newVal = oldValue;
                     } else {
