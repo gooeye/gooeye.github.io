@@ -1,28 +1,36 @@
 function countMessagesBySender(messages, conversationTimeoutMinutes) {
     const senderData = {}; // Object to store data for each sender
-
-    const conversationTimeout = conversationTimeoutMinutes * 60 * 1000;
+    var lastTimestamp = 0;
+    const conversationTimeout = conversationTimeoutMinutes * 60;
 
     messages.forEach(message => {
         if (message.type === "message" && message.from) {
             const sender = message.from;
-            const currentTimestamp = message.date_unixtime * 1000; // Convert to milliseconds
-            const lastSenderData = senderData[sender] || { lastTimestamp: 0, messagesSent: 0, conversationsStarted: 0 };
+            const currentTimestamp = message.date_unixtime;
+            const currentSenderData = senderData[sender] || {
+                messagesSent: 0,
+                conversationsStarted: 0,
+                lastMessageIds: [] // Array to store the last 5 message IDs for conversations started
+            };
 
             // Check if it's a new conversation (last message more than the specified timeout ago)
-            if (currentTimestamp - lastSenderData.lastTimestamp > conversationTimeout) {
-                lastSenderData.conversationsStarted += 1;
+            if (currentTimestamp - lastTimestamp > conversationTimeout || !lastTimestamp) {
+                currentSenderData.conversationsStarted += 1;
+                currentSenderData.lastMessageIds.push(message.id);
+                if (currentSenderData.lastMessageIds.length > 5) {
+                    currentSenderData.lastMessageIds.shift(); // Remove the oldest message ID
+                }
             }
 
-            lastSenderData.messagesSent += 1;
-            lastSenderData.lastTimestamp = currentTimestamp;
-
-            senderData[sender] = lastSenderData;
+            currentSenderData.messagesSent += 1;
+            lastTimestamp = currentTimestamp;
+            senderData[sender] = currentSenderData;
         }
     });
 
     return senderData;
 }
+
 
 
 function parseConversationTimeout(timeoutInput) {
