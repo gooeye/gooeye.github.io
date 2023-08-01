@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Telechat Analysinator</title>
+</head>
+<body>
+    <h1>Telechat Analysinator</h1>
+
+    <label for="jsonFile">Upload JSON file:</label>
+    <input type="file" id="jsonFile" accept=".json" />
+    <br>
+
+    <label for="conversationTimeout">Conversation Timeout (in hours:minutes, default 6h):</label>
+    <input type="text" id="conversationTimeout" value="6:0" />
+    <br>
+
+    <button onclick="analyzeMessages('jsonFile', 'conversationTimeout', 'result')">Analyze Messages</button>
+    <br>
+
+    <div id="result"></div>
+
+    <script src="tca.js"></script>
+</body>
+</html>
