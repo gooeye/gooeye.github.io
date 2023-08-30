@@ -2,6 +2,7 @@ var score = 0;
 var currentNumber = 0;
 var results = []; // "number", "correctSpelling", "yourAnswer", "score"
 const gameTime = 60; 
+var difficulty = 3;
 
 if (document.readyState !== 'loading') {
     start();
@@ -9,17 +10,26 @@ if (document.readyState !== 'loading') {
     document.addEventListener('DOMContentLoaded', start);
 }
 function start() {
-    frenchInit();
-    updateTimer();
+    document.querySelectorAll('.startButton').forEach(item => {
+        item.addEventListener('click', event => {
+            const menu = document.getElementById('menu');
+            const game = document.getElementById('game');
+            menu.style.display = 'none';
+            game.style.display = 'flex';
+            difficulty = item.value;
+            frenchInit();
+            updateTimer();
+            const input = document.getElementById('inputField');
+            input.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    document.getElementById("submitButton").click();
+                }
+            });
+        })
+    })
     const closeModalButton = document.getElementById('closeModalButton');
     closeModalButton.addEventListener('click', closeModal);
-    const input = document.getElementById('inputField');
-    input.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            document.getElementById("submitButton").click();
-        }
-    });
 }
 
 function numberToFrenchSpelling(number) {
@@ -104,6 +114,7 @@ function countDigits(number) {
 
 function generateRandomInt(min, max) {
     digits = Math.floor(Math.random() * (max - min + 1)) + min;
+    console.log(digits, min, max);
     return Math.floor(Math.random() * (10 ** (digits) - 10 ** (digits - 1) + 1)) + 10 ** (digits - 2);
 }
 
@@ -111,7 +122,7 @@ function frenchInit() {
     const dynamicContainer = document.getElementById('dynamicContainer');
     const submitButton = document.getElementById('submitButton');
 
-    currentNumber = generateRandomInt(2, 7);
+    currentNumber = generateRandomInt(2, difficulty);
     dynamicContainer.textContent = `${currentNumber}`;
     
     submitButton.addEventListener('click', checkAnswer);
