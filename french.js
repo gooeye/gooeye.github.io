@@ -79,7 +79,8 @@ function numberToFrenchSpelling(number) {
     } else if (number >= 1000 && number <= 999999) {
         const thousand = Math.floor(number / 1000);
         const remainder = number % 1000;
-        let spelling = numberToFrenchSpelling(thousand) + ' mille';
+        let spelling = 'mille';
+        if (thousand != 1) spelling = numberToFrenchSpelling(thousand) + 'mille';
     
         if (remainder !== 0) {
             spelling += ' ' + numberToFrenchSpelling(remainder);
@@ -115,7 +116,6 @@ function countDigits(number) {
 
 function generateRandomInt(min, max) {
     digits = Math.floor(Math.random() * (max - min + 1)) + min;
-    console.log(digits, min, max);
     return Math.floor(Math.random() * (10 ** (digits) - 10 ** (digits - 1) + 1)) + 10 ** (digits - 2);
 }
 
@@ -145,7 +145,6 @@ function checkAnswer() {
     } else {
         flashBackground("red");
     }
-    console.log('hi');
     results.push({
         "number": currentNumber,
         "correctSpelling": frenchSpelling,
@@ -179,14 +178,14 @@ function updateTimer() {
 function populateTable() {
     modalTableBody.innerHTML = '';
     results.forEach(result => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${result.number}</td>
-        <td>${result.correctSpelling}</td>
-        <td>${result.yourAnswer}</td>
-        <td>${result.score}</td>
-      `;
-      modalTableBody.appendChild(row);
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${result.number}</td>
+            <td>${result.correctSpelling}</td>
+            <td>${result.yourAnswer}</td>
+            <td>${result.score}</td>
+        `;
+        modalTableBody.appendChild(row);
     });
 }
 
@@ -202,8 +201,7 @@ function openModal() {
 }
 
 function flashBackground(color) {
-    
-    // Store the original background color
+
     const body = document.querySelector('body');
 
     body.classList.add('flash-animation-'+color);
