@@ -9,6 +9,7 @@ if (document.readyState !== 'loading') {
 } else {
     document.addEventListener('DOMContentLoaded', start);
 }
+
 function start() {
     document.querySelectorAll('.startButton').forEach(item => {
         item.addEventListener('click', event => {
@@ -171,7 +172,7 @@ function updateTimer() {
             openModal();
         }
     }
-
+    tick()
     const interval = setInterval(tick, 1000);
 }
 
