@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material Design Form</title>
+    <title>Number Spelling</title>
     <style>
         /* styles.css */
         body {
@@ -153,7 +153,30 @@
         th, td:first-child {
             font-weight: bold;
         }
+        .flash-animation-red {
+            animation: flash-red 0.3s ease-in-out;
+        }
+        .flash-animation-green {
+            animation: flash-green 0.3s ease-in-out;
+        }
 
+        @keyframes flash-red {
+            0% {
+                background-color: rgb(255, 106, 106);
+            }
+            100% {
+                background-color: initial; /* Revert to the original background color */
+            }
+        }
+
+        @keyframes flash-green {
+            0% {
+                background-color: rgb(133, 255, 133);
+            }
+            100% {
+                background-color: initial; /* Revert to the original background color */
+            }
+        }
 
     </style>
 </head>

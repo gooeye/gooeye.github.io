@@ -190,16 +190,13 @@ function openModal() {
 }
 
 function flashBackground(color) {
-    const body = document.querySelector('body');
     
     // Store the original background color
-    const originalBackgroundColor = body.style.backgroundColor;
+    const body = document.querySelector('body');
+
+    body.classList.add('flash-animation-'+color);
     
-    // Change the background color to red
-    body.style.backgroundColor = color;
-    
-    // Set a timeout to revert back to the original color after 300 milliseconds
     setTimeout(function() {
-        body.style.backgroundColor = originalBackgroundColor;
+        body.classList.remove('flash-animation-'+color);
     }, 300);
 }
