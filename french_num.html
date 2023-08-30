@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Design Form</title>
+    <style>
+        /* styles.css */
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            font-family: sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            height: 150px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .content {
+            padding: 20px;
+
+        }
+
+        .centered {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dynamic-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #inputField {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            margin-right: 10px;
+            transition: border-color 0.2s;
+        }
+
+        #inputField::placeholder {
+            color: #999;
+        }
+
+        #inputField:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        #submitButton {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #submitButton:hover {
+            background-color: #0056b3;
+        }
+        .disp-container {
+            text-align: center;
+            width: 100%;
+            max-width: 100px;
+            height: 150px;
+            display: flex;
+            background-color: #c9e3ff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .disp-container:first-child {
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+        .disp-container:last-child {
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        .disp-container div {
+            margin: auto;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            overflow: auto;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .close {
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        th, td:first-child {
+            font-weight: bold;
+        }
+
+
+    </style>
+</head>
+    <body>
+        <div class="disp-container">
+            <div id="timer">Starting...</div>
+        </div>
+        <div class="container">
+            <div class="content">
+                <div class="centered">
+                    <div class="dynamic-container" id="dynamicContainer">
+                        <!-- Content will be populated dynamically -->
+                    </div>
+                    <div class="input-container">
+                        <input type="text" id="inputField" placeholder="Enter a number">
+                        <button id="submitButton">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="disp-container">
+            
+            <div id="score"><div>Score:</div>0</div>
+        </div>
+        <div class="modal" id="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModalButton">&times;</span>
+                <h2>Results</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Correct Spelling</th>
+                        <th>Your Answer</th>
+                        <th>Score</th>
+                    </tr>
+                    </thead>
+                    <tbody id="modalTableBody">
+                    <!-- Table rows will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        <script src="french.js"></script>
+    </body>
+</html>
