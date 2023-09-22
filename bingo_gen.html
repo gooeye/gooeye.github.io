@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Sheets</title>
+    <style>
+        body {
+        }
+
+        .bingo-container {
+            text-align: center;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 10mm auto;
+            border: 1px #D3D3D3 solid;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .bingo-heading {
+            font-size: 2cm;
+            font-weight: bold;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .bingo-grid {
+            display: grid;
+            grid-template-columns: auto auto auto auto auto;
+            gap: 3mm;
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        .bingo-cell {
+            width: 2.5cm;
+            height: 2.5cm;
+            border: 0.5mm solid #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8cm;
+        }
+
+        .bingo-cell img {
+            max-width: 95%;
+            max-height: 95%;
+        }
+        @media print {
+            html, body {
+                width: 210mm;
+                height: 297mm;
+            }
+            .bingo-container {
+                margin: 0;
+                border: initial;
+                border-radius: initial;
+                width: initial;
+                min-height: initial;
+                box-shadow: initial;
+                background: initial;
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- JavaScript will dynamically populate and create multiple bingo sheets -->
+    <div id="input-container">
+        <h2>Bingo Generator</h2>
+        <label for="numSheets">How many bingo sheets to generate:</label>
+        <input type="number" id="numSheets" min="1" value="5">
+        <br>
+        <label for="headerText">Header Text:</label>
+        <input type="text" id="headerText" placeholder="Enter header text">
+        <br>
+        <label for="freeCellText">Free Cell Text:</label>
+        <input type="text" id="freeCellText" placeholder="Enter free cell text">
+        <br>
+        <button id="generateButton">Generate Bingo Sheets</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputContainer = document.getElementById("input-container");
+            const generateButton = document.getElementById("generateButton");
+
+            generateButton.addEventListener("click", function () {
+                const numSheets = parseInt(document.getElementById("numSheets").value);
+                const headerText = document.getElementById("headerText").value;
+                const freeCellText = document.getElementById("freeCellText").value;
+
+                // Remove the input container
+                inputContainer.style.display = "none";
+
+                // Your bingo sheet generation code goes here
+                // You can use the input values (numSheets, headerText, freeCellText) to customize the generation
+                // For example, you can pass these values to the createBingoSheet function in the previous example
+                // to customize the header and free cell text.
+
+                // Example:
+                generateSheets(numSheets, headerText, freeCellText);
+            });
+        });
+        const arrayRange = (start, stop, step) =>
+            Array.from(
+            { length: (stop - start) / step + 1 },
+            (value, index) => start + index * step
+        );
+        function shuffleArray(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+        // Function to generate a random number between min and max (inclusive)
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        const images = [
+            'images/image (1).png',
+            'images/image (2).png',
+            'images/image (3).png',
+            'images/image (4).png',
+            'images/image (5).png',
+            'images/image (6).png',
+            'images/image (7).png',
+            'images/image (8).png',
+            'images/image (9).png',
+            'images/image (10).png',
+            'images/image (11).png',
+            'images/image (12).png',
+            'images/image (13).png',
+            'images/image (14).png',
+            'images/image (15).png',
+            'images/image (16).png',
+            'images/image (17).png',
+            'images/image (18).png',
+            'images/image (19).png',
+            'images/image (20).png',
+            'images/image (21).png',
+            'images/image (22).png',
+            'images/image (23).png',
+            'images/image (24).png',
+            // Add more image URLs here
+        ];
+        const numbers = arrayRange(1, 50, 1);
+        // Function to create and populate a bingo sheet with a specific image layout
+        function createBingoSheet(imageLayout, header, freeText) {
+            const bingoGrid = document.createElement("div");
+            bingoGrid.classList.add("bingo-container");
+    
+            const heading = document.createElement("h1");
+            heading.classList.add("bingo-heading");
+            heading.textContent = header;
+    
+            bingoGrid.appendChild(heading);
+    
+            const gridContainer = document.createElement("div");
+            gridContainer.classList.add("bingo-grid");
+    
+            
+            // const shuffledNumbers = [...numbers].sort(() => Math.random() - 0.5);
+            // const shuffledImages = [...images].sort(() => Math.random() - 0.5);
+            const shuffledNumbers = numbers.slice();
+            const shuffledImages = images.slice();
+            shuffleArray(shuffledImages);
+            shuffleArray(shuffledNumbers);
+            const imagePositions = imageLayout;
+    
+            let imageIndex = 0;
+            let numberIndex = 0;
+            for (let row = 0; row < 5; row++) {
+                for (let col = 0; col < 5; col++) {
+                    if (row === 2 && col === 2) {
+                        // Center cell is "Free"
+                        const cell = document.createElement("div");
+                        cell.classList.add("bingo-cell");
+                        cell.textContent = freeText;
+                        gridContainer.appendChild(cell);
+                    } else {
+                        if (imagePositions.some(pos => pos.row === row && pos.col === col)) {
+                            // Place an image
+                            const image = document.createElement("img");
+                            image.src = shuffledImages[imageIndex];
+                            imageIndex++;
+                            const cell = document.createElement("div");
+                            cell.classList.add("bingo-cell");
+                            cell.appendChild(image);
+                            gridContainer.appendChild(cell);
+                        } else {
+                            // Place a number
+                            // const number = getRandomNumber(col * 15 + 1, (col + 1) * 15);
+                            const number = shuffledNumbers[numberIndex];
+                            numberIndex++;
+                            const cell = document.createElement("div");
+                            cell.classList.add("bingo-cell");
+                            cell.textContent = number;
+                            gridContainer.appendChild(cell);
+                        }
+                    }
+                }
+                bingoGrid.appendChild(heading);
+                bingoGrid.appendChild(gridContainer);
+            }
+    
+            document.body.appendChild(bingoGrid);
+        }
+    
+        // Define multiple image layouts (example layouts)
+        const imageLayouts = [
+            [
+                { row: 0, col: 0 },{ row: 0, col: 2 },{ row: 1, col: 4 },
+                { row: 1, col: 1 },{ row: 1, col: 3 },
+                { row: 2, col: 0 },{ row: 2, col: 3 },
+                { row: 3, col: 0 },{ row: 3, col: 2 },{ row: 3, col: 4 },
+                { row: 4, col: 1 },{ row: 4, col: 3 },
+            ],[
+                { row: 0, col: 0 },{ row: 0, col: 3 },
+                { row: 1, col: 1 },{ row: 1, col: 2 },{ row: 1, col: 4 },
+                { row: 2, col: 0 },{ row: 2, col: 3 },
+                { row: 3, col: 1 },{ row: 3, col: 4 },
+                { row: 4, col: 0 },{ row: 4, col: 2 },{ row: 4, col: 3 },
+            ],
+            [
+                { row: 0, col: 1 },{ row: 0, col: 2 },{ row: 0, col: 4 },
+                { row: 1, col: 0 },{ row: 1, col: 3 },
+                { row: 2, col: 1 },{ row: 2, col: 4 },
+                { row: 3, col: 0 },{ row: 3, col: 2 },{ row: 3, col: 3 },
+                { row: 4, col: 1 },{ row: 4, col: 4 },
+            ],[
+                { row: 0, col: 1 },{ row: 0, col: 3 },
+                { row: 1, col: 0 },{ row: 1, col: 2 },{ row: 1, col: 4 },
+                { row: 2, col: 1 },{ row: 2, col: 4 },
+                { row: 3, col: 1 },{ row: 3, col: 3 },
+                { row: 4, col: 0 },{ row: 4, col: 2 },{ row: 4, col: 4 },
+            ],
+            // Add more layouts here
+        ];
+    
+        // Generate multiple bingo sheets with different layouts
+        function generateSheets (numSheets, header, freeText) {
+            for (let i = 0; i < numSheets; i++) {
+                const randomLayoutIndex = getRandomNumber(0, imageLayouts.length - 1);
+                createBingoSheet(imageLayouts[randomLayoutIndex], header, freeText);
+            }
+        }
+    </script>
+    
+    
+</body>
+</html>
