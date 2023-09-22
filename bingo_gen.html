@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo Sheets</title>
     <style>
-        body {
-        }
-
         .bingo-container {
             text-align: center;
             width: 210mm;
             min-height: 297mm;
             padding: 20mm;
-            margin: 10mm auto;
+            margin: 5mm auto;
             border: 1px #D3D3D3 solid;
             border-radius: 5px;
             background: white;
@@ -27,19 +24,26 @@
             font-size: 2cm;
             font-weight: bold;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 0;
         }
 
+        .bingo-footer {
+            font-size: 0.5cm;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 1cm;
+        }
+        
         .bingo-grid {
             display: grid;
             grid-template-columns: auto auto auto auto auto;
-            gap: 3mm;
+            gap: 1.5mm;
             width: fit-content;
             margin: 0 auto;
         }
 
         .bingo-cell {
-            width: 2.5cm;
-            height: 2.5cm;
+            width: 3.8cm;
+            height: 3.8cm;
             border: 0.5mm solid #000;
             display: flex;
             justify-content: center;
@@ -82,6 +86,9 @@
         <label for="freeCellText">Free Cell Text:</label>
         <input type="text" id="freeCellText" placeholder="Enter free cell text">
         <br>
+        <label for="footerText">Footer Text:</label>
+        <input type="text" id="footerText" placeholder="Enter footer text">
+        <br>
         <button id="generateButton">Generate Bingo Sheets</button>
     </div>
     <script>
@@ -93,6 +100,7 @@
                 const numSheets = parseInt(document.getElementById("numSheets").value);
                 const headerText = document.getElementById("headerText").value;
                 const freeCellText = document.getElementById("freeCellText").value;
+                const footerText = document.getElementById("footerText").value;
 
                 // Remove the input container
                 inputContainer.style.display = "none";
@@ -103,7 +111,7 @@
                 // to customize the header and free cell text.
 
                 // Example:
-                generateSheets(numSheets, headerText, freeCellText);
+                generateSheets(numSheets, headerText, freeCellText, footerText);
             });
         });
         const arrayRange = (start, stop, step) =>
@@ -152,7 +160,7 @@
         ];
         const numbers = arrayRange(1, 50, 1);
         // Function to create and populate a bingo sheet with a specific image layout
-        function createBingoSheet(imageLayout, header, freeText) {
+        function createBingoSheet(imageLayout, header, freeText, footerText) {
             const bingoGrid = document.createElement("div");
             bingoGrid.classList.add("bingo-container");
     
@@ -178,7 +186,7 @@
             let numberIndex = 0;
             for (let row = 0; row < 5; row++) {
                 for (let col = 0; col < 5; col++) {
-                    if (row === 2 && col === 2) {
+                    if (row === 2 && col === 2 && freeText !== "") {
                         // Center cell is "Free"
                         const cell = document.createElement("div");
                         cell.classList.add("bingo-cell");
@@ -209,7 +217,10 @@
                 bingoGrid.appendChild(heading);
                 bingoGrid.appendChild(gridContainer);
             }
-    
+            const footer = document.createElement("div");
+            footer.classList.add("bingo-footer");
+            footer.textContent = footerText;
+            bingoGrid.appendChild(footer);
             document.body.appendChild(bingoGrid);
         }
     
@@ -245,10 +256,10 @@
         ];
     
         // Generate multiple bingo sheets with different layouts
-        function generateSheets (numSheets, header, freeText) {
+        function generateSheets (numSheets, header, freeText, footerText) {
             for (let i = 0; i < numSheets; i++) {
                 const randomLayoutIndex = getRandomNumber(0, imageLayouts.length - 1);
-                createBingoSheet(imageLayouts[randomLayoutIndex], header, freeText);
+                createBingoSheet(imageLayouts[randomLayoutIndex], header, freeText, footerText);
             }
         }
     </script>
