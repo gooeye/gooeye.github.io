@@ -89,9 +89,37 @@
         <label for="footerText">Footer Text:</label>
         <input type="text" id="footerText" placeholder="Enter footer text">
         <br>
+        <label for="links">Custom links:</label>
+        <textarea id="links" rows="24" cols="50" placeholder="Enter custom links...">
+images/konghou.png
+images/biangu.png
+images/bianzhong.png
+images/cello.png
+images/dizi.png
+images/erhu.png
+images/gaoyinsheng.png
+images/guqin.png
+images/guzheng.png
+images/daluo.png
+images/muyu.png
+images/paigu.png
+images/pengling.png
+images/pipa.png
+images/sanxian.png
+images/sihu.png
+images/suona.png
+images/xiaobo.png
+images/xiaoluo.png
+images/xun.png
+images/yangqin.png
+images/yunluo.png
+images/zhongruan.png
+images/zhongyinsheng.png</textarea>
+        <br>
         <button id="generateButton">Generate Bingo Sheets</button>
     </div>
     <script>
+        var images = [];
         document.addEventListener("DOMContentLoaded", function () {
             const inputContainer = document.getElementById("input-container");
             const generateButton = document.getElementById("generateButton");
@@ -101,16 +129,43 @@
                 const headerText = document.getElementById("headerText").value;
                 const freeCellText = document.getElementById("freeCellText").value;
                 const footerText = document.getElementById("footerText").value;
-
+                const links = document.getElementById("links").value;
                 // Remove the input container
                 inputContainer.style.display = "none";
+                if (links !== "") {
+                    images = splitLines(links);
+                    console.log("split into "+images);
+                } else {
+                    images = [
+                        'images/konghou.png',
+                        'images/biangu.png',
+                        'images/bianzhong.png',
+                        'images/cello.png',
+                        'images/dizi.png',
+                        'images/erhu.png',
+                        'images/gaoyinsheng.png',
+                        'images/guqin.png',
+                        'images/guzheng.png',
+                        'images/daluo.png',
+                        'images/muyu.png',
+                        'images/paigu.png',
+                        'images/pengling.png',
+                        'images/pipa.png',
+                        'images/sanxian.png',
+                        'images/sihu.png',
+                        'images/suona.png',
+                        'images/xiaobo.png',
+                        'images/xiaoluo.png',
+                        'images/xun.png',
+                        'images/yangqin.png',
+                        'images/yunluo.png',
+                        'images/zhongruan.png',
+                        'images/zhongyinsheng.png',
+                        // Add more image URLs here
+                    ];
+                    
+                }
 
-                // Your bingo sheet generation code goes here
-                // You can use the input values (numSheets, headerText, freeCellText) to customize the generation
-                // For example, you can pass these values to the createBingoSheet function in the previous example
-                // to customize the header and free cell text.
-
-                // Example:
                 generateSheets(numSheets, headerText, freeCellText, footerText);
             });
         });
@@ -127,37 +182,16 @@
                 array[j] = temp;
             }
         }
+        function splitLines(inputText) {
+            const lines = inputText.split('\n');
+            const trimmedLines = lines.map(line => line.trim()).filter(line => line !== '');
+            return trimmedLines;
+        }
         // Function to generate a random number between min and max (inclusive)
         function getRandomNumber(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
         }
-        const images = [
-            'images/image (1).png',
-            'images/image (2).png',
-            'images/image (3).png',
-            'images/image (4).png',
-            'images/image (5).png',
-            'images/image (6).png',
-            'images/image (7).png',
-            'images/image (8).png',
-            'images/image (9).png',
-            'images/image (10).png',
-            'images/image (11).png',
-            'images/image (12).png',
-            'images/image (13).png',
-            'images/image (14).png',
-            'images/image (15).png',
-            'images/image (16).png',
-            'images/image (17).png',
-            'images/image (18).png',
-            'images/image (19).png',
-            'images/image (20).png',
-            'images/image (21).png',
-            'images/image (22).png',
-            'images/image (23).png',
-            'images/image (24).png',
-            // Add more image URLs here
-        ];
+        
         const numbers = arrayRange(1, 50, 1);
         // Function to create and populate a bingo sheet with a specific image layout
         function createBingoSheet(imageLayout, header, freeText, footerText) {
