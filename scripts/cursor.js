@@ -17,8 +17,12 @@ function moveCursor(e) {
     let el = document.elementFromPoint(e.clientX, e.clientY);
     if (el && el.closest(".big-card")) {
         cursor.classList.add("c1");
+        cursor.classList.remove("c2");
+        cursor.classList.remove("faded");
     } else if (el && el.closest(".card")) {
         cursor.classList.add("c2");
+        cursor.classList.remove("c1");
+        cursor.classList.remove("faded");
     } else if (el && el.closest(".pin")) {
         cursor.classList.add("faded");
     } else{
