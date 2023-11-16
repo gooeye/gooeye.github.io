@@ -1,0 +1,161 @@
+@import "mixins";
+@import "colour";
+@import "fonts";
+@import "cursor";
+@import "svg";
+
+* {
+    @include font();
+}
+
+html, body {
+    padding: 0;
+    margin: 0;
+    background-color: $background;
+    z-index: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    @include font(bold);
+    margin: 0;
+    display: inline;
+}
+h1 {
+   font-size: 24px;
+}
+h2 {
+    font-size: 22px;
+}
+h3 {
+    font-size: 20px;
+}
+h4 {
+    font-size: 20px;
+    font-weight: normal;
+}
+h5 {
+    font-size: 16px;
+}
+
+p {
+    text-align: justify !important;
+    margin: 0;
+}
+
+img {
+    @include box(50px, 50px)
+}
+
+img.small {
+    @include box(20px, 20px)
+}
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(155, 155, 155, 0.5);
+    border-radius: 20px;
+    border: transparent;
+}
+
+.i {
+    font-style: italic;
+}
+
+.b {
+    font-weight: bold;
+}
+
+.container {
+    @include flex-center-column;
+    @include box(100%);
+    padding: 30vh 0;
+}
+
+.big-card {
+    @include box (60%, auto);
+    margin-bottom: 100px;
+    padding: 40px;
+    background-color: rgba($primary, 0.8);
+    color: $background2;
+    box-shadow: 0px 0px 0px 0px $primary;
+    transition: 0.5s;
+}
+.big-card:hover {
+    box-shadow: 0px 0px 4px 1px rgba($primary, 0.6);
+}
+.big-card * {
+    z-index: 3;
+}
+.big-card img {
+    filter: invert(0.7);
+    transition: 0.5s;
+}
+.big-card img:hover {
+    filter: invert(1);
+}
+
+.card {
+    @include box (50%, 10vh);
+    padding-bottom: 50px;
+}
+
+.card * {
+    z-index: 3;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 0;
+    gap: 5%;
+    :last-child {
+        text-align: right;
+    }
+    ul {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+        flex-grow: 1;
+        li {
+            display: inline;
+        }
+    }
+}
+.row-left {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+.row-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.pin {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+    color: gray;
+    z-index: 3;
+}
+
+.no-sel {
+    cursor: default;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}

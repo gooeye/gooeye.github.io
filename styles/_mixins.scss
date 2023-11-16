@@ -1,0 +1,35 @@
+@mixin box($width: auto, $height: auto) {
+    width: $width;
+    min-height: $height;
+}
+
+@mixin font-face($font-name, $path, $weight: normal, $style: normal) {
+    @font-face {
+        font-family: quote($font-name);
+        src: url($path+".ttf") format("truetype");
+        font-weight: $weight;
+        font-style: $style;
+    }
+}  
+
+@mixin font($weight: normal, $style: normal, $font-name: Atkinson) {
+    font-family: quote($font-name);
+    font-weight: $weight;
+    font-style: $style;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-center-column {
+    @include flex-center;
+    flex-direction: column;
+}

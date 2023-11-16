@@ -13,10 +13,8 @@ if (document.readyState !== 'loading') {
 function start() {
     document.querySelectorAll('.startButton').forEach(item => {
         item.addEventListener('click', event => {
-            const menu = document.getElementById('menu');
-            const game = document.getElementById('game');
-            menu.style.display = 'none';
-            game.style.display = 'flex';
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('game').style.display = 'flex';
             difficulty = item.value;
             frenchInit();
             updateTimer();
@@ -165,7 +163,7 @@ function updateTimer() {
 
         if (seconds < 0) {
             clearInterval(interval);
-            timerElement.textContent = 'Time\'s up!';
+            timerElement.textContent = 'Time\'s up! Keep playing or refresh the page!';
 
             checkAnswer();
             openModal();
@@ -210,3 +208,19 @@ function flashBackground(color) {
         body.classList.remove('flash-animation-'+color);
     }, 300);
 }
+
+function updateHighScore(newScore) {
+    const oldScore = localStorage.getItem('highScore');
+    
+    if (oldScore === null || newScore > oldScore) {
+        localStorage.setItem('highScore', newScore);
+        console.log(`New high score: ${newScore}`);
+    } else {
+        console.log(`No new high score. Current high score: ${oldScore}`);
+    }
+  }
+  
+  // Call the function with a new score
+  const newScore = 500;
+  updateHighScore(newScore);
+  

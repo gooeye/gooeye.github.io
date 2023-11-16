@@ -1,0 +1,29 @@
+#cursor {
+    height: 10px;
+    width: 10px;
+    background-color: $accent;
+    border-radius: 50%;
+    display: block;
+    position: fixed;
+    z-index: 1;
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
+                border-radius 0.5s,
+                width 0.2s,
+                height 0.2s;
+}
+
+#cursor.block {
+    border-radius: 0;
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
+                border-radius 0.1s,
+                width 0.2s,
+                height 0.2s;
+}
+
+#cursor.round {
+    border-radius: 5px;
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
+                border-radius 0.1s,
+                width 0.2s,
+                height 0.2s;
+}
