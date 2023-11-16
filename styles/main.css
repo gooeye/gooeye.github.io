@@ -450,7 +450,8 @@ img.small {
   padding: 0;
   margin: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 20px;
   flex-grow: 1;
 }
 .row ul li {
