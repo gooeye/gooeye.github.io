@@ -34,25 +34,23 @@ function IntervalTimer(callback, interval) {
     timerId = window.setInterval(callback, interval);
     state = 1;
 }
-var next = () => {
-    if (++num == svgList.length) num = 0;
+function refresh() {
     for (svg of svgList) {
         if (svg.classList.contains("active")) svg.classList.remove("active"); 
     }
     setTimeout(() => {
         svgList[num].classList.add("active");
-    },950)
+    },1000)
+}
+var next = () => {
+    if (++num == svgList.length) num = 0;
+    refresh();
 }
 function set(target) {
     let n = [].slice.call(labelList).indexOf(target);
     if (num != n) {
         num = n
-        for (svg of svgList) {
-            if (svg.classList.contains("active")) svg.classList.remove("active"); 
-        }
-        setTimeout(() => {
-            svgList[num].classList.add("active");
-        },950)
+        refresh();
     }
     timer.pause();
     console.log("set");

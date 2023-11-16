@@ -1,29 +1,58 @@
+@mixin cursor-transition ($radius-duration: 0.5s) {
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
+                border-radius $radius-duration,
+                width 0.2s,
+                height 0.2s,
+                clip-path 0.6s;
+}
+
 #cursor {
     height: 10px;
     width: 10px;
-    background-color: $accent;
+    background-color: $primary;
     border-radius: 50%;
     display: block;
     position: fixed;
     z-index: 1;
-    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
-                border-radius 0.5s,
-                width 0.2s,
-                height 0.2s;
+    pointer-events: none;
+    @include cursor-transition;
 }
 
 #cursor.block {
     border-radius: 0;
-    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
-                border-radius 0.1s,
-                width 0.2s,
-                height 0.2s;
+    @include cursor-transition(0.1s);
 }
 
-#cursor.round {
-    border-radius: 5px;
-    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1),
-                border-radius 0.1s,
-                width 0.2s,
-                height 0.2s;
+#cursor.alt {
+    @include cursor-transition(0.1s);
+    @include flex-center;
+    clip-path: path("M 4 5M 4 5 c -1.6568 0 -3 1.3432 -3 3 V 32 c 0 1.6569 1.3432 3 3 3 h 2 v 4 c 0 0.388 0.2245 0.741 0.5758 0.9056 c 0.3514 0.1646 0.7663 0.111 1.0644 -0.1374 l 5.7218 -4.7682 H 97 c 1.6569 0 3 -1.3431 3 -3 V 8 c 0 -1.6568 -1.3431 -3 -3 -3 h -68 Z");
+    &::before {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        width: 100%;
+        color: $background;
+        text-align: center;
+    }
+}
+
+#cursor.c1 {
+    background-color: $accent;
+}
+
+#cursor.c2 {
+    background-color: $secondary;
+}
+
+#cursor-parent {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    pointer-events: none;
+    &.shadow{
+        filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));
+    }
 }
