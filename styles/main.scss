@@ -147,15 +147,15 @@ img.small {
 
 .pin {
     position: fixed;
-    bottom: 0;
+    bottom: 3px;
     margin: 0;
     color: rgba($primary, 0.3);
     z-index: 3;
     &.right {
-        right: 0;
+        right: 5px;
     }
     &.left {
-        left: 0;
+        left: 5px;
     }
 }
 
