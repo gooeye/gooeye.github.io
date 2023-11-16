@@ -1,6 +1,8 @@
 # Portfolio website
 
 ## Todos
+- [ ] Update page title
+- [ ] Update page favicon
 - [ ] Update card text
 - [ ] Make page responsive
 - [ ] Change selection colours
