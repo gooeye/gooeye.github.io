@@ -50,6 +50,16 @@ img.small {
     @include box(20px, 20px)
 }
 
+button {
+    background-color: transparent; 
+    border: 2px solid $primary;
+    padding: 10px 20px;           
+    text-decoration: none;         
+    font-size: 10px;
+    text-align: center !important;
+    cursor: pointer;
+}
+  
 ::-webkit-scrollbar {
     width: 9px;
 }
@@ -76,26 +86,32 @@ img.small {
     padding: 30vh 0;
 }
 
-.big-card {
+.v-center {
+    @include flex-column
+}
+
+.hero {
     @include box (60%, auto);
     margin-bottom: 100px;
     padding: 40px;
     background-color: rgba($primary, 0.8);
-    color: $background2;
     box-shadow: 0px 0px 0px 0px $primary;
     transition: 0.5s;
+    cursor: default;
 }
-.big-card:hover {
+.hero:hover {
     box-shadow: 0px 0px 4px 1px rgba($primary, 0.6);
 }
-.big-card * {
+.hero * {
     z-index: 3;
+    color: $background2;
+    border-color: $background2;
 }
-.big-card img {
+.hero img {
     filter: invert(0.7);
     transition: 0.5s;
 }
-.big-card img:hover {
+.hero img:hover {
     filter: invert(1);
 }
 
