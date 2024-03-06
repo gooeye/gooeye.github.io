@@ -15,7 +15,7 @@ function moveCursor(e) {
     y = e.clientY - lineSize;
     document.getElementById('location').innerHTML = e.clientX + "px, " + e.clientY + "px";
     let el = document.elementFromPoint(e.clientX, e.clientY);
-    if (el && el.closest(".big-card")) {
+    if (el && el.closest(".hero")) {
         cursor.classList.add("c1");
         cursor.classList.remove("c2");
         cursor.classList.remove("faded");
@@ -40,7 +40,8 @@ function moveCursor(e) {
             cursor.style.top = rect.top + 'px';
             parent.classList.remove("shadow");
         } else if (el.classList.contains("content-alt")) {
-            cursor.setAttribute("data-text", el.alt);
+            let altText = el.tagName == "IMG" ? el.alt : el.dataset.alt;
+            cursor.setAttribute("data-text", altText);
             cursor.style.width = '100px';
             cursor.style.height = '40px';
             cursor.style.left = rect.left + 20 + 'px';

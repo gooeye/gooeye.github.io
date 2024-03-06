@@ -40,6 +40,9 @@
 
 #cursor.c1 {
     background-color: $accent;
+    &::before {
+        color: $primary;
+    }
 }
 
 #cursor.c2 {
