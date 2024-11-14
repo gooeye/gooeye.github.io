@@ -96,8 +96,14 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
         $end_id = 0
 
         do {
-            # Update URL with end_id for pagination
-            $paged_url = $url
+            # Clean URL of any existing begin_id or end_id
+            $paged_url = $url -replace 'begin_id=[^&]*&?', "" `
+                             -replace 'end_id=[^&]*&?', ""
+            
+            # Ensure no trailing "&" or "?" if parameters were at the end
+            $paged_url = $paged_url.TrimEnd('&', '?')
+
+            # Add new end_id for pagination if needed
             if ($end_id -ne 0) {
                 if ($paged_url.Contains("?")) {
                     $paged_url = "$paged_url&end_id=$end_id"
