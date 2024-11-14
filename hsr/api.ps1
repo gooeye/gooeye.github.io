@@ -242,9 +242,9 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
         if ($results[11].first_5_star_name) {
             $standardChars = @("Bailu", "Bronya", "Clara", "Gepard", "Himeko", "Welt", "Yanqing")
             $message = if ($standardChars -contains $results[11].first_5_star_name) {
-                "Your next 5* event character pull will be the event character!"
+                "[50/50 info]: Your next 5* event character pull will 100% be the banner character!"
             } else {
-                "Your next 5* event character pull is 50/50"
+                "[50/50 info]: Your next 5* event character pull is 50/50"
             }
             Write-Output $message
             Write-Output ""
