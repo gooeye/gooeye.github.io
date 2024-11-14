@@ -176,7 +176,7 @@ function Process-GachaType {
 }
 
 $gachaTypes = @{
-    0 = "Character Event Warp"
+    11 = "Character Event Warp"
     1 = "Light Cone Event Warp"
     2 = "Stellar Warp"
 }
@@ -190,7 +190,7 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
         $baseUrl = ($line -split "\0")[0]
         Write-Output "Warp URL found!"
 
-        foreach ($type in 0..2) {
+        foreach ($type in @(11,1,2)) {
             Write-Output "`nProcessing $($gachaTypes[$type])..."
             $results[$type] = Process-GachaType -baseUrl $baseUrl -gachaType $type
         }
@@ -199,14 +199,14 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
         Write-Output "`n=== Warp Statistics ===`n"
         $header = "Banner Type".PadRight(25) + "|" + 
                  "Total".PadLeft(8) + "|" + 
-                 "4★".PadLeft(6) + "|" + 
-                 "5★".PadLeft(6) + "|" + 
+                 "4*".PadLeft(6) + "|" + 
+                 "5*".PadLeft(6) + "|" + 
                  "Before 4★".PadLeft(10) + "|" + 
                  "Before 5★".PadLeft(10)
         Write-Output $header
         Write-Output ("-" * $header.Length)
 
-        foreach ($type in 0..2) {
+        foreach ($type in @(11,1,2)) {
             $stats = $results[$type]
             $line = $gachaTypes[$type].PadRight(25) + "|" + 
                    $stats.total_count.ToString().PadLeft(8) + "|" + 
