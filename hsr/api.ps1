@@ -78,94 +78,146 @@ Remove-Item -Path $copy_path
 
 $cache_data_split = $cache_data -split '1/0/'
 
-# Initialize counters
-$total_count = 0
-$rank_4_count = 0
-$rank_5_count = 0
-$pulls_before_first_4 = 0
-$pulls_before_first_5 = 0
-$found_first_4 = $false
-$found_first_5 = $false
+# Function to process gacha data for a specific type
+function Process-GachaType {
+    param (
+        [string]$baseUrl,
+        [int]$gachaType
+    )
+    
+    $stats = @{
+        total_count = 0
+        rank_4_count = 0
+        rank_5_count = 0
+        pulls_before_first_4 = 0
+        pulls_before_first_5 = 0
+        found_first_4 = $false
+        found_first_5 = $false
+    }
+
+    # Add or update gacha_type parameter
+    $url = $baseUrl
+    if ($url -match "gacha_type=\d+") {
+        $url = $url -replace "gacha_type=\d+", "gacha_type=$gachaType"
+    } else {
+        $url = if ($url.Contains("?")) {
+            "$url&gacha_type=$gachaType"
+        } else {
+            "$url?gacha_type=$gachaType"
+        }
+    }
+
+    # Modify size parameter to 20
+    $url = $url -replace "size=\d+", "size=20"
+    
+    $size = 20
+    $end_id = 0
+
+    do {
+        # Clean URL of any existing begin_id or end_id
+        $paged_url = $url -replace 'begin_id=[^&]*&?', "" `
+                         -replace 'end_id=[^&]*&?', ""
+        
+        # Ensure no trailing "&" or "?" if parameters were at the end
+        $paged_url = $paged_url.TrimEnd('&', '?')
+
+        # Add new end_id for pagination if needed
+        if ($end_id -ne 0) {
+            if ($paged_url.Contains("?")) {
+                $paged_url = "$paged_url&end_id=$end_id"
+            } else {
+                $paged_url = "$paged_url?end_id=$end_id"
+            }
+        }
+        
+        Write-Output "Trying URL (Type $gachaType): $paged_url"
+        # Add delay of 250ms between requests (max 4 requests per second)
+        Start-Sleep -Milliseconds 250
+        # Get JSON data from URL and parse it
+        $response = Invoke-WebRequest -Uri $paged_url -ContentType "application/json" -UseBasicParsing | ConvertFrom-Json
+
+        if ($response.retcode -eq 0) {
+            # Count items based on rank_type
+            foreach ($item in $response.data.list) {
+                $itemCount = [int]$item.count
+                $stats.total_count += $itemCount
+                
+                if ($item.rank_type -eq "4") {
+                    $stats.rank_4_count += $itemCount
+                    if (-not $stats.found_first_4) {
+                        $stats.found_first_4 = $true
+                    }
+                } elseif ($item.rank_type -eq "5") {
+                    $stats.rank_5_count += $itemCount
+                    if (-not $stats.found_first_5) {
+                        $stats.found_first_5 = $true
+                    }
+                }
+                
+                if (-not $stats.found_first_4) {
+                    $stats.pulls_before_first_4 += $itemCount
+                }
+                if (-not $stats.found_first_5) {
+                    $stats.pulls_before_first_5 += $itemCount
+                }
+            }
+
+            # Set end_id for the next page
+            $end_id = $response.data.list[-1].id
+
+        } else {
+            Write-Output "Failed to retrieve data. Error code: $($response.retcode)"
+            break
+        }
+        
+    } while ($response.data.list.Count -gt 0)
+
+    return $stats
+}
+
+$gachaTypes = @{
+    0 = "Character Event Warp"
+    1 = "Light Cone Event Warp"
+    2 = "Stellar Warp"
+}
+
+$results = @{}
 
 for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
     $line = $cache_data_split[$i]
 
     if ($line.StartsWith('http') -and $line.Contains("getGachaLog")) {
-        $url = ($line -split "\0")[0]
+        $baseUrl = ($line -split "\0")[0]
+        Write-Output "Warp URL found!"
 
-        # Modify size parameter to 20
-        $url = $url -replace "size=\d+", "size=20"
-        
-        $size = 20
-        $end_id = 0
+        foreach ($type in 0..2) {
+            Write-Output "`nProcessing $($gachaTypes[$type])..."
+            $results[$type] = Process-GachaType -baseUrl $baseUrl -gachaType $type
+        }
 
-        do {
-            # Clean URL of any existing begin_id or end_id
-            $paged_url = $url -replace 'begin_id=[^&]*&?', "" `
-                             -replace 'end_id=[^&]*&?', ""
-            
-            # Ensure no trailing "&" or "?" if parameters were at the end
-            $paged_url = $paged_url.TrimEnd('&', '?')
+        # Display results in a table format
+        Write-Output "`n=== Warp Statistics ===`n"
+        $header = "Banner Type".PadRight(25) + "|" + 
+                 "Total".PadLeft(8) + "|" + 
+                 "4★".PadLeft(6) + "|" + 
+                 "5★".PadLeft(6) + "|" + 
+                 "Before 4★".PadLeft(10) + "|" + 
+                 "Before 5★".PadLeft(10)
+        Write-Output $header
+        Write-Output ("-" * $header.Length)
 
-            # Add new end_id for pagination if needed
-            if ($end_id -ne 0) {
-                if ($paged_url.Contains("?")) {
-                    $paged_url = "$paged_url&end_id=$end_id"
-                } else {
-                    $paged_url = "$paged_url?end_id=$end_id"
-                }
-            }
-            Write-Output "Trying URL: $paged_url"
-            # Add delay of 250ms between requests (max 4 requests per second)
-            Start-Sleep -Milliseconds 250
-            # Get JSON data from URL and parse it
-            $response = Invoke-WebRequest -Uri $paged_url -ContentType "application/json" -UseBasicParsing | ConvertFrom-Json
+        foreach ($type in 0..2) {
+            $stats = $results[$type]
+            $line = $gachaTypes[$type].PadRight(25) + "|" + 
+                   $stats.total_count.ToString().PadLeft(8) + "|" + 
+                   $stats.rank_4_count.ToString().PadLeft(6) + "|" + 
+                   $stats.rank_5_count.ToString().PadLeft(6) + "|" + 
+                   $stats.pulls_before_first_4.ToString().PadLeft(10) + "|" + 
+                   $stats.pulls_before_first_5.ToString().PadLeft(10)
+            Write-Output $line
+        }
 
-            if ($response.retcode -eq 0) {
-                Write-Output "Warp URL found!"
-                
-                # Count items based on rank_type
-                foreach ($item in $response.data.list) {
-                    $itemCount = [int]$item.count
-                    $total_count += $itemCount
-                    
-                    if ($item.rank_type -eq "4") {
-                        $rank_4_count += $itemCount
-                        if (-not $found_first_4) {
-                            $found_first_4 = $true
-                        }
-                    } elseif ($item.rank_type -eq "5") {
-                        $rank_5_count += $itemCount
-                        if (-not $found_first_5) {
-                            $found_first_5 = $true
-                        }
-                    }
-                    
-                    if (-not $found_first_4) {
-                        $pulls_before_first_4 += $itemCount
-                    }
-                    if (-not $found_first_5) {
-                        $pulls_before_first_5 += $itemCount
-                    }
-                }
-
-                # Set end_id for the next page and increment page
-                $end_id = $response.data.list[-1].id
-                $page++
-
-            } else {
-                Write-Output "Failed to retrieve data. Error code: $($response.retcode)"
-                break
-            }
-            
-        } while ($response.data.list.Count -gt 0)
-
-        Write-Output "Total Items Parsed: $total_count"
-        Write-Output "4-Star Items: $rank_4_count"
-        Write-Output "5-Star Items: $rank_5_count"
-        Write-Output "Pulls before first 4-star: $pulls_before_first_4"
-        Write-Output "Pulls before first 5-star: $pulls_before_first_5"
-
+        Write-Output ""
         Read-Host -Prompt "Press Enter to exit"
         return
     }
