@@ -211,8 +211,8 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
 
         foreach ($type in @(11,1,2)) {
             $stats = $results[$type]
-            $pity4 = if ($type -eq 2) { "0/0" } else { $stats.pulls_before_first_4.ToString() }
-            $pity5 = if ($type -eq 2) { "0/0" } else { $stats.pulls_before_first_5.ToString() }
+            $pity4 = if ($type -eq 2) { "0/0" } else { $stats.pulls_before_first_4.ToString() + "/10" }
+            $pity5 = if ($type -eq 2) { "0/0" } else { $stats.pulls_before_first_5.ToString() + "/90" }
             $jades = ($stats.total_count * 160).ToString()
             
             $line = $gachaTypes[$type].PadRight(25) + "|" + 
@@ -223,20 +223,21 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
                    $pity5.PadLeft(10) + "|" +
                    $jades.PadLeft(8)
             Write-Output $line
-
-            # Check 50/50 status for Character Event Warp
-            if ($type -eq 11 -and $stats.first_5_star_name) {
-                $standardChars = @("Bailu", "Bronya", "Clara", "Gepard", "Himeko", "Welt", "Yanqing")
-                $message = if ($standardChars -contains $stats.first_5_star_name) {
-                    "Your next 5* event character pull will be the event character!"
-                } else {
-                    "Your next 5* event character pull is 50/50"
-                }
-                Write-Output "`n$message"
-            }
         }
 
         Write-Output ""
+        
+        # Check 50/50 status for Character Event Warp
+        if ($results[11].first_5_star_name) {
+            $standardChars = @("Bailu", "Bronya", "Clara", "Gepard", "Himeko", "Welt", "Yanqing")
+            $message = if ($standardChars -contains $results[11].first_5_star_name) {
+                "Your next 5* event character pull will be the event character!"
+            } else {
+                "Your next 5* event character pull is 50/50"
+            }
+            Write-Output $message
+            Write-Output ""
+        }
         Read-Host -Prompt "Press Enter to exit"
         return
     }
