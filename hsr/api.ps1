@@ -93,6 +93,7 @@ function Process-GachaType {
         pulls_before_first_5 = 0
         found_first_4 = $false
         found_first_5 = $false
+        first_5_star_name = ""
     }
 
     # Add or update gacha_type parameter
@@ -201,20 +202,37 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
                  "4*".PadLeft(6) + "|" + 
                  "5*".PadLeft(6) + "|" + 
                  "Total".PadLeft(8) + "|" + 
-                 "4* Pity".PadLeft(10) + "/10|" + 
-                 "5* Pity".PadLeft(10) + "/90"
+                 "4* Pity".PadLeft(10) + "|" + 
+                 "5* Pity".PadLeft(10) + "|" +
+                 "Jades".PadLeft(8)
         Write-Output $header
         Write-Output ("-" * $header.Length)
 
         foreach ($type in @(11,1,2)) {
             $stats = $results[$type]
+            $pity4 = if ($type -eq 2) { "0/0" } else { $stats.pulls_before_first_4.ToString() }
+            $pity5 = if ($type -eq 2) { "0/0" } else { $stats.pulls_before_first_5.ToString() }
+            $jades = ($stats.total_count * 160).ToString()
+            
             $line = $gachaTypes[$type].PadRight(25) + "|" + 
                    $stats.rank_4_count.ToString().PadLeft(6) + "|" + 
                    $stats.rank_5_count.ToString().PadLeft(6) + "|" + 
                    $stats.total_count.ToString().PadLeft(8) + "|" + 
-                   $stats.pulls_before_first_4.ToString().PadLeft(10) + "/10|" + 
-                   $stats.pulls_before_first_5.ToString().PadLeft(10) + "/90"
+                   $pity4.PadLeft(10) + "|" + 
+                   $pity5.PadLeft(10) + "|" +
+                   $jades.PadLeft(8)
             Write-Output $line
+
+            # Check 50/50 status for Character Event Warp
+            if ($type -eq 11 -and $stats.first_5_star_name) {
+                $standardChars = @("Bailu", "Bronya", "Clara", "Gepard", "Himeko", "Welt", "Yanqing")
+                $message = if ($standardChars -contains $stats.first_5_star_name) {
+                    "Your next 5* event character pull will be the event character!"
+                } else {
+                    "Your next 5* event character pull is 50/50"
+                }
+                Write-Output "`n$message"
+            }
         }
 
         Write-Output ""
