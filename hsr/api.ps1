@@ -92,19 +92,19 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
         # Modify size parameter to 20
         $url = $url -replace "size=\d+", "size=20"
         
-        $page = 1
         $size = 20
         $end_id = 0
 
         do {
-            # Update URL for the current page and end_id
-            $paged_url = $url -replace 'begin_id=[^&]*&?', "" `
-                         -replace 'end_id=[^&]*&?', "" `
-                         -replace 'page=\d+', "page=$page" `
-                         -replace 'size=\d+', "size=$size"
-
-            # Ensure no trailing "&" or "?" if begin_id or end_id were at the end
-            $paged_url = $paged_url.TrimEnd('&', '?')
+            # Update URL with end_id for pagination
+            $paged_url = $url
+            if ($end_id -ne 0) {
+                if ($paged_url.Contains("?")) {
+                    $paged_url = "$paged_url&end_id=$end_id"
+                } else {
+                    $paged_url = "$paged_url?end_id=$end_id"
+                }
+            }
             Write-Output "Trying URL: $paged_url"
             # Get JSON data from URL and parse it
             $response = Invoke-WebRequest -Uri $paged_url -ContentType "application/json" -UseBasicParsing | ConvertFrom-Json
