@@ -108,6 +108,17 @@ function Process-GachaType {
         }
     }
 
+    # Ensure language is set to English
+    if ($url -match "lang=\w+") {
+        $url = $url -replace "lang=\w+", "lang=en"
+    } else {
+        $url = if ($url.Contains("?")) {
+            "$url&lang=en"
+        } else {
+            "$url?lang=en"
+        }
+    }
+
     # Modify size parameter to 20
     $url = $url -replace "size=\d+", "size=20"
     
