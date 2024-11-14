@@ -152,6 +152,7 @@ function Process-GachaType {
                     $stats.rank_5_count += $itemCount
                     if (-not $stats.found_first_5) {
                         $stats.found_first_5 = $true
+                        $stats.first_5_star_name = $item.name
                     }
                 }
                 
