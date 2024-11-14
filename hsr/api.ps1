@@ -82,6 +82,10 @@ $cache_data_split = $cache_data -split '1/0/'
 $total_count = 0
 $rank_4_count = 0
 $rank_5_count = 0
+$pulls_before_first_4 = 0
+$pulls_before_first_5 = 0
+$found_first_4 = $false
+$found_first_5 = $false
 
 for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
     $line = $cache_data_split[$i]
@@ -122,11 +126,26 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
                 
                 # Count items based on rank_type
                 foreach ($item in $response.data.list) {
-                    $total_count++
+                    $itemCount = [int]$item.count
+                    $total_count += $itemCount
+                    
                     if ($item.rank_type -eq "4") {
-                        $rank_4_count++
+                        $rank_4_count += $itemCount
+                        if (-not $found_first_4) {
+                            $found_first_4 = $true
+                        }
                     } elseif ($item.rank_type -eq "5") {
-                        $rank_5_count++
+                        $rank_5_count += $itemCount
+                        if (-not $found_first_5) {
+                            $found_first_5 = $true
+                        }
+                    }
+                    
+                    if (-not $found_first_4) {
+                        $pulls_before_first_4 += $itemCount
+                    }
+                    if (-not $found_first_5) {
+                        $pulls_before_first_5 += $itemCount
                     }
                 }
 
@@ -144,6 +163,8 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
         Write-Output "Total Items Parsed: $total_count"
         Write-Output "4-Star Items: $rank_4_count"
         Write-Output "5-Star Items: $rank_5_count"
+        Write-Output "Pulls before first 4-star: $pulls_before_first_4"
+        Write-Output "Pulls before first 5-star: $pulls_before_first_5"
 
         Read-Host -Prompt "Press Enter to exit"
         return
