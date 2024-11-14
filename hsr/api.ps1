@@ -112,6 +112,8 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
                 }
             }
             Write-Output "Trying URL: $paged_url"
+            # Add delay of 250ms between requests (max 4 requests per second)
+            Start-Sleep -Milliseconds 250
             # Get JSON data from URL and parse it
             $response = Invoke-WebRequest -Uri $paged_url -ContentType "application/json" -UseBasicParsing | ConvertFrom-Json
 
