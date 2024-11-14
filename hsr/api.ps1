@@ -177,8 +177,8 @@ function Process-GachaType {
 
 $gachaTypes = @{
     11 = "Character Event Warp"
-    1 = "Light Cone Event Warp"
-    2 = "Stellar Warp"
+    2 = "Departure Warp"
+    1 = "Stellar Warp"
 }
 
 $results = @{}
@@ -190,7 +190,7 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
         $baseUrl = ($line -split "\0")[0]
         Write-Output "Warp URL found!"
 
-        foreach ($type in @(11,1,2)) {
+        foreach ($type in @(11,2,1)) {
             Write-Output "`nProcessing $($gachaTypes[$type])..."
             $results[$type] = Process-GachaType -baseUrl $baseUrl -gachaType $type
         }
@@ -198,22 +198,22 @@ for ($i = $cache_data_split.Length - 1; $i -ge 0; $i--) {
         # Display results in a table format
         Write-Output "`n=== Warp Statistics ===`n"
         $header = "Banner Type".PadRight(25) + "|" + 
-                 "Total".PadLeft(8) + "|" + 
                  "4*".PadLeft(6) + "|" + 
                  "5*".PadLeft(6) + "|" + 
-                 "Before 4★".PadLeft(10) + "|" + 
-                 "Before 5★".PadLeft(10)
+                 "Total".PadLeft(8) + "|" + 
+                 "4* Pity".PadLeft(10) + "/10|" + 
+                 "5* Pity".PadLeft(10) + "/90"
         Write-Output $header
         Write-Output ("-" * $header.Length)
 
         foreach ($type in @(11,1,2)) {
             $stats = $results[$type]
             $line = $gachaTypes[$type].PadRight(25) + "|" + 
-                   $stats.total_count.ToString().PadLeft(8) + "|" + 
                    $stats.rank_4_count.ToString().PadLeft(6) + "|" + 
                    $stats.rank_5_count.ToString().PadLeft(6) + "|" + 
-                   $stats.pulls_before_first_4.ToString().PadLeft(10) + "|" + 
-                   $stats.pulls_before_first_5.ToString().PadLeft(10)
+                   $stats.total_count.ToString().PadLeft(8) + "|" + 
+                   $stats.pulls_before_first_4.ToString().PadLeft(10) + "/10|" + 
+                   $stats.pulls_before_first_5.ToString().PadLeft(10) + "/90"
             Write-Output $line
         }
 
